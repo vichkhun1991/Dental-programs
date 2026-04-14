@@ -1,608 +1,1773 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>โปรแกรมทันตกรรมโรงพยาบาลเจริญศิลป์</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>โปรแกรมทันตกรรมโรงพยาบาลเจริญศิลป์</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1"></script>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <style>
+    /* =========================================
+       1. Global Styles
+       ========================================= */
+    body {
+        font-family: 'Sarabun', sans-serif;
+        font-weight: 400;
+        background-color: #f0f2f5;
+        padding-top: 70px; /* Space for fixed navbar */
+        margin: 0;
+    }
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1"></script>
-
-  <style>
-    /* ========= 1. Global ========= */
-    body { font-family:'Sarabun',sans-serif; font-weight:400; background-color:#f0f2f5; padding-top:70px; margin:0; }
-
-    /* ========= 2. Navbar ========= */
+    /* =========================================
+       2. Top Navbar
+       ========================================= */
     .top-navbar {
-      position:fixed; top:0; left:0; width:100%; height:60px;
-      background-color:#3F51B5; box-shadow:0 4px 12px rgba(0,0,0,.2);
-      z-index:1000; padding:0 20px;
-      display:flex; align-items:center; gap:20px; box-sizing:border-box;
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 60px;
+        background-color: #3F51B5;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        z-index: 1000;
+        padding: 0 20px;
+        display: flex; align-items: center; gap: 20px;
+        box-sizing: border-box;
     }
+
     .menu-income-box {
-      background:linear-gradient(135deg,#FF9800 0%,#FFC107 100%);
-      color:white; padding:8px 15px; border-radius:8px;
-      box-shadow:0 2px 8px rgba(0,0,0,.3); text-align:center; min-width:180px;
-      cursor:pointer; transition:transform .2s,box-shadow .2s;
-      border:2px solid #fff; display:flex; align-items:center; justify-content:space-between;
+        background: linear-gradient(135deg, #FF9800 0%, #FFC107 100%);
+        color: white;
+        padding: 8px 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        text-align: center;
+        min-width: 180px;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+        border: 2px solid #fff;
+        display: flex; align-items: center; justify-content: space-between;
     }
-    .menu-income-box:hover { transform:scale(1.05); box-shadow:0 4px 12px rgba(0,0,0,.4); }
-    .box-title { font-size:.9rem; margin:0; opacity:.9; font-weight:500; }
-    .box-value { font-size:1.1rem; font-weight:bold; margin-left:10px; text-shadow:1px 1px 2px rgba(0,0,0,.2); }
-    .box-unit  { font-size:.8rem; opacity:.8; margin-left:5px; }
-    @media(max-width:768px){
-      .top-navbar{ height:auto; padding:10px 15px; flex-wrap:wrap; gap:10px; }
-      .menu-income-box{ min-width:100%; font-size:14px; }
+    .menu-income-box:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+    .box-title { font-size: 0.9rem; margin: 0; opacity: 0.9; font-weight: 500; }
+    .box-value { font-size: 1.1rem; font-weight: bold; margin-left: 10px; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
+    .box-unit { font-size: 0.8rem; opacity: 0.8; margin-left: 5px; }
+
+    @media (max-width: 768px) {
+        .top-navbar { height: auto; padding: 10px 15px; flex-wrap: wrap; gap: 10px; }
+        .menu-income-box { min-width: 100%; font-size: 14px; }
     }
 
-    /* ========= 3. Layout ========= */
-    .container { display:flex; flex-wrap:wrap; justify-content:center; gap:20px; padding:20px; }
+    /* =========================================
+       3. Layout Container & Columns
+       ========================================= */
+    .container {
+        display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 20px;
+    }
     .column {
-      border:1px solid #ccc; border-radius:8px; padding:15px;
-      display:flex; flex-direction:column; align-items:center;
-      flex:1 1 300px; max-width:320px;
-      background-color:#fff; box-shadow:0 2px 4px rgba(0,0,0,.1); box-sizing:border-box;
+        border: 1px solid #ccc; border-radius: 8px; padding: 15px;
+        display: flex; flex-direction: column; align-items: center;
+        flex: 1 1 300px; max-width: 320px;
+        background-color: #ffffff; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        box-sizing: border-box;
     }
-    .column-full { flex:1 1 100%; max-width:100%; }
-    .column h2,.nested-column h2 { text-align:center; width:100%; color:#333; margin:10px 0 15px 0; font-weight:700; }
-    .nested-column { border:none; padding:0; margin:10px 0 0 0; width:100%; }
+    .column-full {
+        flex: 1 1 100%; max-width: 100%;
+    }
+    .column h2, .nested-column h2 {
+        text-align: center; width: 100%; color: #333;
+        margin: 10px 0 15px 0; font-weight: 700;
+    }
+    .nested-column {
+        border: none; padding: 0; margin: 10px 0 0 0; width: 100%;
+    }
 
-    /* ========= 4. Buttons ========= */
+    /* =========================================
+       4. Buttons
+       ========================================= */
     .button {
-      margin:5px 0; padding:12px 20px;
-      border:1px solid #ccc; border-radius:8px; cursor:pointer; background-color:#fff;
-      width:100%; text-align:left; font-size:16px; font-family:'Sarabun',sans-serif;
-      transition:all .2s ease-in-out; box-shadow:0 1px 3px rgba(0,0,0,.1);
-      display:flex; align-items:center; color:#333; box-sizing:border-box;
+        margin: 5px 0; padding: 12px 20px;
+        border: 1px solid #ccc; border-radius: 8px;
+        cursor: pointer; background-color: #fff;
+        width: 100%; text-align: left;
+        font-size: 16px; font-family: 'Sarabun', sans-serif;
+        transition: all 0.2s ease-in-out;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        display: flex; align-items: center; color: #333;
+        box-sizing: border-box;
     }
-    .button:hover { background-color:#e9e9e9; box-shadow:0 4px 8px rgba(0,0,0,.1); transform:translateY(-2px); }
-    .button i { margin-right:10px; width:18px; text-align:center; }
-    .button-student   { background-color:#E6F7FF !important; color:#007bff; border-color:#B3E0FF !important; }
-    .button-student:hover { background-color:#D6EFFF !important; }
-    .button-diabetes  { background-color:#FFFBE6 !important; color:#C07C00; border-color:#FFEEB3 !important; }
-    .button-diabetes:hover { background-color:#FFF5D6 !important; }
-    .button-risk      { background-color:#FFEBEE !important; color:#D32F2F; border-color:#FFCDD2 !important; }
-    .button-risk:hover { background-color:#FFE0E6 !important; }
-    .button-knowledge { background-color:#E8F5E9 !important; color:#388E3C; border-color:#C8E6C9 !important; }
-    .button-knowledge:hover { background-color:#D6EED7 !important; }
-    .new-badge { color:#E91E63; font-weight:bold; margin-right:8px; }
-    .blink-button { animation:pulse 2s infinite ease-in-out; }
+    .button:hover {
+        background-color: #e9e9e9;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        transform: translateY(-2px);
+    }
+    .button i { margin-right: 10px; width: 18px; text-align: center; }
+    
+    /* Specific Button Types */
+    .button-student { background-color: #E6F7FF !important; color: #007bff; border-color: #B3E0FF !important; }
+    .button-student:hover { background-color: #D6EFFF !important; }
+    .button-diabetes { background-color: #FFFBE6 !important; color: #C07C00; border-color: #FFEEB3 !important; }
+    .button-diabetes:hover { background-color: #FFF5D6 !important; }
+    .button-risk { background-color: #FFEBEE !important; color: #D32F2F; border-color: #FFCDD2 !important; }
+    .button-risk:hover { background-color: #FFE0E6 !important; }
+    .button-knowledge { background-color: #E8F5E9 !important; color: #388E3C; border-color: #C8E6C9 !important; }
+    .button-knowledge:hover { background-color: #D6EED7 !important; }
+    
+    .new-badge { color: #E91E63; font-weight: bold; margin-right: 8px; }
+    .blink-button { animation: pulse 2s infinite ease-in-out; }
     @keyframes pulse {
-      0%  { transform:scale(1);    box-shadow:0 1px 3px rgba(56,142,60,.4); }
-      50% { transform:scale(1.01); box-shadow:0 0 10px rgba(56,142,60,.8); }
-      100%{ transform:scale(1);    box-shadow:0 1px 3px rgba(56,142,60,.4); }
+        0% { transform: scale(1); box-shadow: 0 1px 3px rgba(56,142,60,0.4); } 
+        50% { transform: scale(1.01); box-shadow: 0 0 10px rgba(56,142,60,0.8); }
+        100% { transform: scale(1); box-shadow: 0 1px 3px rgba(56,142,60,0.4); }
     }
 
-    /* ========= 5. Modals ========= */
+    /* =========================================
+       5. Modals (Popup)
+       ========================================= */
     .modal {
-      display:none; position:fixed; z-index:2000;
-      left:0; top:0; width:100%; height:100%;
-      overflow:auto; background-color:rgba(0,0,0,.5);
-      backdrop-filter:blur(5px); align-items:center; justify-content:center;
+        display: none; position: fixed; z-index: 2000;
+        left: 0; top: 0; width: 100%; height: 100%;
+        overflow: auto; background-color: rgba(0,0,0,0.5);
+        backdrop-filter: blur(5px);
+        align-items: center; justify-content: center;
     }
     .modal-content {
-      background-color:#fefefe; margin:auto; padding:20px;
-      border:1px solid #888; width:90%; max-width:600px;
-      border-radius:12px; position:relative;
-      box-shadow:0 4px 20px rgba(0,0,0,.2); animation:modalFadeIn .3s;
+        background-color: #fefefe; margin: auto; padding: 20px;
+        border: 1px solid #888; width: 90%; max-width: 600px;
+        border-radius: 12px; position: relative;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        animation: modalFadeIn 0.3s;
     }
     .modal-pdf-content {
-      background-color:#fefefe; margin:auto; padding:20px;
-      border:1px solid #888; width:95%; height:90%;
-      border-radius:12px; position:relative;
-      box-shadow:0 4px 20px rgba(0,0,0,.2);
-      display:flex; flex-direction:column; animation:modalFadeIn .3s;
+        background-color: #fefefe; margin: auto; padding: 20px;
+        border: 1px solid #888; width: 95%; height: 90%;
+        border-radius: 12px; position: relative;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        display: flex; flex-direction: column;
+        animation: modalFadeIn 0.3s;
     }
-    @keyframes modalFadeIn { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
-    .close { color:#aaa; float:right; font-size:28px; font-weight:bold; cursor:pointer; }
-    .close:hover { color:black; }
-    .modal-header { text-align:center; margin-bottom:20px; font-weight:bold; font-size:1.2rem; color:#333; }
-    .pdf-toolbar  { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; padding-bottom:10px; border-bottom:1px solid #eee; }
-    .pdf-actions  { display:flex; gap:10px; }
-    .btn-action   { padding:8px 16px; border:none; border-radius:6px; cursor:pointer; font-family:'Sarabun',sans-serif; font-weight:bold; display:flex; align-items:center; gap:5px; color:white; transition:opacity .2s; }
-    .btn-action:hover { opacity:.9; }
-    .btn-print    { background-color:#607D8B; }
-    .btn-download { background-color:#2196F3; }
-    .btn-close-red{ background-color:#F44336; }
-    .pdf-frame    { width:100%; flex-grow:1; border:1px solid #ddd; border-radius:4px; }
+    @keyframes modalFadeIn {
+        from {opacity: 0; transform: translateY(-20px);}
+        to {opacity: 1; transform: translateY(0);}
+    }
+    .close { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+    .close:hover { color: black; }
+    .modal-header { text-align: center; margin-bottom: 20px; font-weight: bold; font-size: 1.2rem; color: #333; }
+    
+    /* PDF Toolbar */
+    .pdf-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
+    .pdf-actions { display: flex; gap: 10px; }
+    .btn-action { padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-family: 'Sarabun', sans-serif; font-weight: bold; display: flex; align-items: center; gap: 5px; color: white; transition: opacity 0.2s; }
+    .btn-action:hover { opacity: 0.9; }
+    .btn-print { background-color: #607D8B; }
+    .btn-download { background-color: #2196F3; }
+    .btn-close-red { background-color: #F44336; }
+    .pdf-frame { width: 100%; flex-grow: 1; border: 1px solid #ddd; border-radius: 4px; }
 
-    /* ========= 6. Calendar ========= */
-    .calendar-card { width:100%; border:1px solid #ccc; border-radius:12px; background:#fff; box-shadow:0 2px 6px rgba(0,0,0,.08); padding:12px; box-sizing:border-box; }
-    .calendar-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
-    .calendar-title  { font-weight:700; color:#333; margin:0; font-size:1.1rem; }
-    .calendar-frame  { width:100%; aspect-ratio:16/11; border:1px solid #777; border-radius:8px; overflow:hidden; }
-    @media(max-width:640px){ .calendar-frame{ aspect-ratio:3/4; } }
+    /* =========================================
+       6. Calendar & Frames
+       ========================================= */
+    .calendar-card {
+        width: 100%; border: 1px solid #ccc; border-radius: 12px;
+        background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        padding: 12px; box-sizing: border-box;
+    }
+    .calendar-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    .calendar-title { font-weight: 700; color: #333; margin: 0; font-size: 1.1rem; }
+    .calendar-frame { width: 100%; aspect-ratio: 16 / 11; border: 1px solid #777; border-radius: 8px; overflow: hidden; }
+    @media (max-width: 640px) { .calendar-frame { aspect-ratio: 3 / 4; } }
 
-    /* ========= 7. Sticky Sidebar ========= */
+    /* =========================================
+       7. Sticky Sidebar (Collapsible)
+       ========================================= */
     .sticky-sidebar {
-      position:fixed; top:50%; right:20px; transform:translateY(-50%);
-      display:flex; flex-direction:column; gap:15px; z-index:1000;
-      transition:right .4s cubic-bezier(.25,.8,.25,1);
+        position: fixed; top: 50%; right: 20px;
+        transform: translateY(-50%);
+        display: flex; flex-direction: column; gap: 15px;
+        z-index: 1000;
+        transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
-    .sticky-sidebar.collapsed { right:-80px; }
+    .sticky-sidebar.collapsed { right: -80px; } /* เลื่อนเก็บ */
+
     .sticky-button {
-      width:60px; height:60px; border-radius:50%;
-      border:3px solid #fff; background-color:#333; color:white;
-      font-size:24px; display:flex; align-items:center; justify-content:center;
-      cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,.25);
-      transition:transform .2s,box-shadow .2s; position:relative;
+        width: 60px; height: 60px; border-radius: 50%;
+        border: 3px solid #fff; background-color: #333; color: white;
+        font-size: 24px; display: flex; align-items: center; justify-content: center;
+        cursor: pointer; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+        transition: transform 0.2s, box-shadow 0.2s; position: relative;
     }
-    .sticky-button:hover { transform:scale(1.08); box-shadow:0 6px 12px rgba(0,0,0,.35); }
-    .sticky-button.chatgpt { background-color:#10a37f; }
-    .sticky-button.gemini  {
-      background:linear-gradient(45deg,#1A73E8,#4285F4,#34A853,#FBBC05,#EA4335);
-      background-size:200% 200%; animation:gradient-shift 4s ease infinite;
+    .sticky-button:hover { transform: scale(1.08); box-shadow: 0 6px 12px rgba(0, 0, 0, 0.35); }
+    .sticky-button.chatgpt { background-color: #10a37f; }
+    .sticky-button.gemini {
+        background: linear-gradient(45deg, #1A73E8, #4285F4, #34A853, #FBBC05, #EA4335);
+        background-size: 200% 200%; animation: gradient-shift 4s ease infinite;
     }
-    @keyframes gradient-shift{ 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+    @keyframes gradient-shift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+    /* Sidebar Toggler Handle */
     .sidebar-toggler {
-      position:absolute; left:-24px; top:50%; transform:translateY(-50%);
-      width:24px; height:50px; background-color:#333; color:#fff;
-      border-radius:6px 0 0 6px; display:flex; align-items:center; justify-content:center;
-      cursor:pointer; box-shadow:-2px 0 4px rgba(0,0,0,.15); font-size:12px; z-index:1002;
+        position: absolute; left: -24px; top: 50%; transform: translateY(-50%);
+        width: 24px; height: 50px; background-color: #333; color: #fff;
+        border-radius: 6px 0 0 6px; display: flex; align-items: center; justify-content: center;
+        cursor: pointer; box-shadow: -2px 0 4px rgba(0,0,0,0.15); font-size: 12px; z-index: 1002;
     }
-    .sidebar-toggler:hover { background-color:#555; }
+    .sidebar-toggler:hover { background-color: #555; }
+    
+    /* Tooltip for buttons */
     .sticky-button::before {
-      content:attr(data-tooltip); position:absolute; right:100%; top:50%;
-      transform:translateY(-50%) translateX(20px); opacity:0; pointer-events:none;
-      background:#333; color:#fff; padding:6px 10px; border-radius:6px;
-      white-space:nowrap; margin-right:10px; font-size:14px; font-weight:500;
-      z-index:1001; transition:.3s;
+        content: attr(data-tooltip); position: absolute; right: 100%; top: 50%;
+        transform: translateY(-50%) translateX(20px); opacity: 0; pointer-events: none;
+        background: #333; color: #fff; padding: 6px 10px; border-radius: 6px;
+        white-space: nowrap; margin-right: 10px; font-size: 14px; font-weight: 500;
+        z-index: 1001; transition: 0.3s;
     }
-    .sticky-button.chatgpt::before { background:#10a37f; }
-    .sticky-button.gemini::before  { background:#1A73E8; }
-    .sticky-button:hover::before   { opacity:1; transform:translateY(-50%) translateX(0); }
-    @media(max-width:768px){
-      .sticky-sidebar{ top:auto; bottom:20px; right:20px; left:auto; flex-direction:row; transform:none; }
-      .sticky-sidebar.collapsed{ right:-100px; }
-      .sticky-button{ width:50px; height:50px; font-size:20px; }
-      .sidebar-toggler{ display:none; }
+    .sticky-button.chatgpt::before { background: #10a37f; }
+    .sticky-button.gemini::before { background: #1A73E8; }
+    .sticky-button:hover::before { opacity: 1; transform: translateY(-50%) translateX(0); }
+
+    @media (max-width: 768px) {
+        .sticky-sidebar { top: auto; bottom: 20px; right: 20px; left: auto; flex-direction: row; transform: none; }
+        .sticky-sidebar.collapsed { right: -100px; /* Adjust for mobile if needed, or disable collapse */ }
+        .sticky-button { width: 50px; height: 50px; font-size: 20px; }
+        .sidebar-toggler { display: none; /* Hide toggler on mobile usually */ }
     }
 
-    /* ========= 8. Tables ========= */
-    .moph-muted { color:#666; font-size:13px; }
-    .custom-table { width:100%; border-collapse:collapse; font-family:'Sarabun',sans-serif; font-size:14px; min-width:1000px; }
-    .custom-table thead th { color:white; padding:8px; text-align:center; border:1px solid rgba(255,255,255,.2); font-weight:bold; }
-    .custom-table th.main-header { font-size:1.1em; }
-    .custom-table td { padding:8px; border:1px solid #ddd; text-align:right; color:#333; }
-    .custom-table td:first-child { text-align:left; font-weight:500; min-width:200px; }
-    .custom-table tr:nth-child(even){ background-color:#f9f9f9; }
-    .custom-table tr:hover { background-color:#e8f5e9; }
-    .custom-table tfoot { background-color:#6c757d; color:white; font-weight:bold; }
-    .custom-table tfoot td { border:1px solid #5a6268; text-align:right; }
-    .custom-table tfoot td:first-child { text-align:center; }
+    /* =========================================
+       8. Custom Tables & Charts Areas
+       ========================================= */
+    .chart-host .col { width: 140px; display: flex; flex-direction: column; align-items: center; position: relative; height: 100%; }
+    .chart-host .bar { width: 88px; height: 0; background: #b9e8c2; border: 1px solid #a3d8ae; border-bottom: none; border-radius: 12px 12px 0 0; transition: height .6s ease; position: absolute; bottom: 0; }
+    .chart-host .grid .line.zero { height: 2px; background: #dcdcdc; }
+    .chart-host .xlab { position: absolute; bottom: -40px; left: 50%; transform: translateX(-50%); width: 120px; text-align: center; }
+    .moph-muted { color: #666; font-size: 13px; }
 
-    /* ========= Loading ========= */
-    .loading-overlay {
-      position:absolute; top:52px; left:0; width:100%; height:calc(100% - 52px);
-      background-color:#fff; display:flex; flex-direction:column;
-      align-items:center; justify-content:center; z-index:50; border-radius:0 0 12px 12px;
+    .custom-table { width: 100%; border-collapse: collapse; font-family: 'Sarabun', sans-serif; font-size: 14px; min-width: 1000px; }
+    .custom-table thead th { color: white; padding: 8px; text-align: center; border: 1px solid rgba(255,255,255,0.2); font-weight: bold; }
+    .custom-table th.main-header { font-size: 1.1em; }
+    .custom-table td { padding: 8px; border: 1px solid #ddd; text-align: right; color: #333; }
+    .custom-table td:first-child { text-align: left; font-weight: 500; min-width: 200px; }
+    .custom-table tr:nth-child(even) { background-color: #f9f9f9; }
+    .custom-table tr:hover { background-color: #e8f5e9; }
+    .custom-table tfoot { background-color: #6c757d; color: white; font-weight: bold; }
+    .custom-table tfoot td { border: 1px solid #5a6268; text-align: right; }
+    .custom-table tfoot td:first-child { text-align: center; }
+</style>
+
+
+    <style>
+        .loading-overlay {
+            position: absolute;
+            top: 52px; /* ต่ำกว่า Toolbar นิดหน่อย */
+            left: 0;
+            width: 100%;
+            height: calc(100% - 52px);
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+            border-radius: 0 0 12px 12px;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid #3498db; /* สีฟ้าสดใส */
+            border-radius: 50%;
+            animation: spin 1s cubic-bezier(0.55, 0.055, 0.675, 0.19) infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-family: 'Sarabun', sans-serif;
+            font-size: 1.2rem;
+            color: #555;
+            font-weight: bold;
+            animation: pulse-text 1.5s infinite ease-in-out;
+        }
+
+        @keyframes pulse-text {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body> 
+
+<div id="testPopup" class="modal">
+    <div class="modal-content" style="max-width: 600px; padding: 25px; border-top: 6px solid #FF9800;">
+        <span class="close" onclick="closeTestPopup()">&times;</span>
+        
+        <h2 style="color: #E65100; margin-top: 0; border-bottom: 1px solid #ddd; padding-bottom: 10px; text-align: center;">
+            <i class="fas fa-bullhorn"></i> แจ้งเตือนสิทธิการรักษา
+        </h2>
+        
+        <div style="text-align: left; margin-top: 20px; font-size: 1.1rem; line-height: 1.6; color: #333;">
+            
+            <div style="margin-bottom: 20px; background-color: #FFF3E0; padding: 10px; border-radius: 8px;">
+                <strong style="color: #E65100; font-size: 1.2rem;">1. สิทธิคนไข้นอกอำเภอ (ใน จ.สกลนคร)</strong>
+                <ul style="margin: 5px 0 10px 20px;">
+                    <li>ตรวจ / จ่ายยา : <span style="color: #2E7D32; font-weight: bold;">ไม่ต้องเสียเงิน</span></li>
+                    <li>อุด / ขูด / ถอน : <span style="color: #C62828; font-weight: bold;">เสียเงินเอง 💸</span></li>
+                </ul>
+                <div style="font-size: 0.95rem; color: #555; border-top: 1px dashed #FFB74D; padding-top: 5px;">
+                    <i class="fas fa-info-circle"></i> หากคนไข้ยินดีจ่าย ให้ไปเปลี่ยนสิทธิที่ห้องบัตรเป็น <u>ชำระเงินเอง</u> ก่อน
+                </div>
+            </div>
+
+            <div style="background-color: #E3F2FD; padding: 10px; border-radius: 8px;">
+                <strong style="color: #1565C0; font-size: 1.2rem;">2. สิทธิคนไข้นอกจังหวัด หรือ นอกเขต</strong>
+                <ul style="margin: 5px 0 10px 20px;">
+                    <li>ตรวจ / จ่ายยา / ถอนฟัน : <span style="color: #2E7D32; font-weight: bold;">ไม่ต้องเสียเงิน</span></li>
+                    <li>อุด / ขูด : <span style="color: #C62828; font-weight: bold;">เสียเงินเอง 💸</span></li>
+                </ul>
+                <div style="font-size: 0.95rem; color: #555; border-top: 1px dashed #64B5F6; padding-top: 5px;">
+                    <i class="fas fa-info-circle"></i> หากคนไข้ยินดีจ่าย ให้ไปเปลี่ยนสิทธิที่ห้องบัตรเป็น <u>ชำระเงินเอง</u> ก่อน
+                </div>
+            </div>
+
+        </div>
+
+        <div style="margin-top: 20px; text-align: right; color: #888; font-size: 0.9rem;">
+            ปิดอัตโนมัติใน <span id="popupCountDown" style="font-weight: bold; color: #333; font-size: 1.2rem;">15</span> วินาที
+        </div>
+        
+        <button class="button" onclick="closeTestPopup()" style="justify-content: center; background-color: #555; color: white; border: none; margin-top: 10px;">
+            <i class="fas fa-check"></i> รับทราบ
+        </button>
+    </div>
+</div>
+
+    <div id="incomeModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-header">สรุปยอดเบิกประกันสังคมรายเดือน</div>
+            <canvas id="incomeChart"></canvas>
+        </div>
+    </div>
+
+    <div id="pdfModal" class="modal">
+        <div class="modal-pdf-content">
+            <div class="pdf-toolbar">
+                <div style="font-weight:bold; font-size:1.2rem;" id="pdfModalTitle">เอกสาร</div>
+                <div class="pdf-actions">
+                    <button class="btn-action btn-print" id="btnPrintPdf"><i class="fas fa-print"></i> พิมพ์ / เปิดแยก</button>
+                    <button class="btn-action btn-download" id="btnDownloadPdf"><i class="fas fa-download"></i> ดาวน์โหลด</button>
+                    <button class="btn-action btn-close-red" onclick="closePdfModal()"><i class="fas fa-times"></i> ปิด</button>
+                </div>
+            </div>
+            
+            <div id="modalLoader" class="loading-overlay" style="display:none;">
+                <div class="spinner"></div>
+                <div class="loading-text">กำลังโหลดโปรแกรม...</div>
+            </div>
+
+            <iframe id="pdfFrame" class="pdf-frame" src=""></iframe>
+        </div>
+    </div>
+
+    <nav class="top-navbar">
+        <div class="menu-income-box" id="income-button">
+            <div class="box-title"><i class="fas fa-hand-holding-dollar"></i> รายได้ประกันสังคม</div>
+            <div class="box-value">
+                <span id="social-sum"><i class="fas fa-spinner fa-spin" style="font-size: 1rem;"></i></span>
+                <span class="box-unit">บาท</span>
+            </div>
+        </div>
+
+        <div class="menu-income-box" style="background: linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%); cursor: default;">
+            <div class="box-title"><i class="fas fa-tooth"></i> ทาฟลูออไรด์กลุ่มเสี่ยง</div>
+            <div class="box-value">
+                <span id="fluoride-sum"><i class="fas fa-spinner fa-spin" style="font-size: 1rem;"></i></span>
+                <span class="box-unit">บาท</span>
+            </div>
+        </div>
+
+        <div class="menu-income-box" style="background: linear-gradient(135deg, #E91E63 0%, #F06292 100%); cursor: default;">
+            <div class="box-title"><i class="fas fa-baby-carriage"></i> รายได้จาก ANC</div>
+            <div class="box-value">
+                <span id="anc-sum"><i class="fas fa-spinner fa-spin" style="font-size: 1rem;"></i></span>
+                <span class="box-unit">บาท</span>
+            </div>
+        </div>
+
+        <div class="menu-income-box" style="background: linear-gradient(135deg, #2196F3 0%, #64B5F6 100%); cursor: default;">
+            <div class="box-title"><i class="fas fa-smile"></i> รายได้จากฟันปลอม</div>
+            <div class="box-value">
+                <span id="denture-sum"><i class="fas fa-spinner fa-spin" style="font-size: 1rem;"></i></span>
+                <span class="box-unit">บาท</span>
+            </div>
+        </div>
+
+        <div class="menu-income-box" style="background: linear-gradient(135deg, #673AB7 0%, #9575CD 100%); cursor: default; border: 2px solid #FFEB3B;">
+            <div class="box-title"><i class="fas fa-coins"></i> รายได้รวมทั้งหมด</div>
+            <div class="box-value">
+                <span id="total-sum" style="font-size: 1.2rem; color: #FFEB3B;"><i class="fas fa-spinner fa-spin" style="font-size: 1rem;"></i></span>
+                <span class="box-unit">บาท</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+        <div class="column">
+            <h2>งานเด็กนักเรียน</h2>
+            <button class="button button-student" onclick="openLink('https://script.google.com/macros/s/AKfycbzMFNf1woDJCMUz8Y5hNL3Wjy-0C-pH7NgVut1dlbA5xFv5aVHxZeycxDj_ebHroMm3Ow/exec')"><i class="fas fa-search-location"></i>ตรวจ</button>
+            <button class="button" onclick="openLink('https://script.google.com/macros/s/AKfycbwEGIBR1xVthpV3gOf5JJV7QwWx0B3noBXCG60p6Gt41kiMEI6c45MCZxst_Tn7k-dlpw/exec')"><i class="fas fa-notes-medical"></i>บันทึกการรักษา</button>
+            <button class="button" onclick="openLink('https://docs.google.com/spreadsheets/d/1JRG5cX-zeFj2ewu8npe_WQ7gGeVFduRW_gIlX_Umt1k/edit?gid=384117056#gid=384117056')"><i class="fas fa-database"></i>ฐานข้อมูลเด็กนักเรียน</button>
+            <button class="button" onclick="openLink('https://docs.google.com/spreadsheets/d/1RfiSQeiV3Kqu0v3NzrCKp4rT9Rz9PuMbQm7Db2cAKNQ/edit?gid=1913927299#gid=1913927299')"><i class="fas fa-chart-bar"></i>รายงาน DMFT</button>
+            <button class="button" onclick="openLink('https://docs.google.com/spreadsheets/d/1n4xfSuDkUIx2kwU4EHAF5CN0jex9OMajWyNA8dwOcTo/edit?usp=sharing')"><i class="fas fa-user-times"></i>รายชื่อเด็ก นร ที่ต้องปิดสิทธิ</button>
+            <button class="button" onclick="openLink('https://edenth.sso.go.th/edt/login')"><i class="fas fa-hand-holding-usd"></i>ตรวจสอบวงเงินประกันสังคม</button>
+            <button class="button" onclick="openLink('https://mms.sso.go.th/login/')"><span class="new-badge">NEW!!!</span><i class="fas fa-hand-holding-usd"></i>ประกันสังคม รูปแบบใหม่</button>
+
+            <h2>เอกสาร ต่าง ๆ </h2>
+            <button class="button" onclick="openPdfModal('https://drive.google.com/file/d/1SJpaxXhvNvtiXg24SH75zp4pGwbPyICQ/view?usp=drive_link', 'ประกันสังคมฉบับจริง กรณีเบิกทันตกรรม')"><i class="fas fa-file-invoice-dollar"></i>ประกันสังคมฉบับจริง กรณีเบิกทันตกรรม</button>
+            <button class="button" onclick="openPdfModal('https://drive.google.com/file/d/1fvtdKjazuMFbh9swwTEM94nOwUmioLWl/view?usp=drive_link', 'ใบลาป่วย / ลากิจ')"><i class="fas fa-file-pen"></i>ลาป่วย/ลากิจ</button>
+            <button class="button" onclick="openPdfModal('https://drive.google.com/file/d/14Pb_Q9nveHFG0tmw7txsBlRfj9EnDLpA/view?usp=drive_link', 'ใบลาพักผ่อน')"><i class="fas fa-file-pen"></i>ลาพักผ่อน</button>
+
+            <button class="button" onclick="openPdfModal('https://drive.google.com/file/d/1RvKmMWD-ozWSfWaY8pivNNPqnX_DYr0c/view?usp=drive_link', 'ขอรถยนต์ไปราชการ')"><i class="fas fa-file-pen"></i>ขอรถยนต์ไปราชการ</button>
+            <button class="button" onclick="openPdfModal('https://drive.google.com/file/d/1v7cri5eq-bGXWCXZgNIEDI412FjaJfmz/view?usp=drive_link', 'ไปราชการภายในจังหวัด')"><i class="fas fa-file-pen"></i>ไปราชการภายในจังหวัด</button>
+
+
+            <button class="button" onclick="openPdfModal('https://drive.google.com/file/d/13pJqnFhHw4VGCk-xMJLWu_5ccywSclNN/view?usp=drive_link', 'ยกเลิกวันลา')"><i class="fas fa-file-pen"></i>ยกเลิกวันลา</button>
+            <button class="button" onclick="openPdfModal('https://drive.google.com/file/d/1oVLKfb0msIXTYr1hohR-h5m-CuDkLgi0/view?usp=drive_link', 'แบบแจ้งซ่อมบำรุง')"><i class="fas fa-file-pen"></i>แบบแจ้งซ่อมบำรุง</button>
+        </div>
+
+        <div class="column">
+            <h2>งานเบาหวาน</h2>
+            <button class="button button-diabetes" onclick="openLink('https://docs.google.com/spreadsheets/d/1IWqPJ_vhsD2EJKLu8wD4D8miRCaRdSDQsHwgS1vzTYU/edit?gid=974116719#gid=974116719')"><i class="fas fa-tint"></i>คีย์เบาหวานและกลุ่มเสี่ยง</button>
+
+            <div class="nested-column">
+                <h2>ติดตามตัวชี้วัด</h2>
+                <button class="button" onclick="openLink('https://hdc.moph.go.th/snk/public/main')"><i class="fas fa-tachometer-alt"></i>HDC</button>
+                <button class="button" onclick="openLink('https://mishos.nhso.go.th/mis_hos/#/Pp/Ppfee')"><i class="fas fa-money-check-alt"></i>สปสช NHSO เกี่ยวการโอนจ่ายเงิน รพ.</button>
+
+                <h2>โปรแกรมโรงพยาบาล</h2>
+                <button class="button button-student" onclick="openLink('http://192.168.146.188:84/#/login/page')"><i class="fas fa-file-signature"></i>IPD PAPERLESS</button>
+                <button class="button" onclick="openLink('https://charoensin.moph.go.th/?page_id=15886')"><i class="fas fa-globe-americas"></i>Website รพ.เจริญศิลป์</button>
+                <button class="button" onclick="openLink('http://192.168.136.18:83/content_patient_claim.aspx')"><i class="fas fa-lock"></i>NeoQ ปิดสิทธิ</button>
+                <button class="button" onclick="openLink('http://192.168.1.251/vopd/web/index.php?r=site%2Flogin')"><i class="fas fa-folder-open"></i>ดูเวชระเบียนออนไลน์</button>
+                <button class="button" onclick="openLink('https://gecc-skko.moph.go.th/officedd/co/main/')"><i class="fas fa-user-shield"></i>SKKO-MOPH</button>
+            </div>
+            
+            <button class="button" onclick="openLink('https://mohpromtstation.moph.go.th/login')"><i class="fas fa-hospital-user"></i>หมอพร้อมสเตชั่น</button>
+            <button class="button" onclick="openLink('https://atcare.at-prevent.com/login')"><i class="fas fa-tools"></i>ส่งซ่อมครุภัณฑ์ AT-Care</button>
+        </div>
+
+        <div class="column">
+            <h2>อื่นๆ</h2>
+            <button class="button" onclick="openWebAppModal('https://script.google.com/macros/s/AKfycbx0k9idHBelDCdF74ZPDJhOy2aNuVhQoITeJGvZbIXI4nA3sDdVcHysLI3hruhfbbek/exec', 'โปรแกรมคำนวณ Dose ยา')"><i class="fas fa-calculator"></i> คำนวณ Dose ยา</button>
+            
+            <button class="button" onclick="openLink('https://docs.google.com/spreadsheets/d/1STEZUmGuICgIMXqAohnObsO97S8BIPGZCVyIICCZVB0/edit?gid=2013524015#gid=2013524015')"><i class="fas fa-warehouse"></i>ตัดคลัง (เมย์)</button>
+            <button class="button" onclick="openLink('https://docs.google.com/spreadsheets/d/14kF2CFVbHpnyXjo8i0Z8RmlIQYH3el4fmsiV1c9VrdM/edit?gid=0#gid=0')"><i class="fas fa-money-bill-transfer"></i>ฎีกาวัสดุทันตกรรม (พี่ฟ้า น้องเอิร์น)</button>
+            <button class="button" onclick="openLink('https://docs.google.com/spreadsheets/d/1N_6C9fGr67hr1sEP9rkfipw5Yg8RssEKjZDoJg5iRBg/edit?gid=0#gid=0')"><i class="fas fa-receipt"></i>ฎีกาฟันปลอม (พี่ฟ้า น้องเอิร์น)</button>
+            <button class="button" onclick="openLink('https://script.google.com/macros/s/AKfycbwuMwILxrlk9OJLJK0Uezn1_zrK5AOwVyVwLlQHIzClERavZGUIFAarwVNgY63Lz6U/exec')"><i class="fas fa-calendar-check"></i>บันทึกกิจกรรมในฝ่าย</button>
+            
+            <button class="button" onclick="openLink('https://script.google.com/macros/s/AKfycbysSCMoqh8k8KGztYYG-YT43Rau_elBbtIviTqYsx8f_NQU6E-KILofjVikhchJUr30/exec')"><i class="fas fa-tools"></i>แจ้งซ่อมครุภัณฑ์</button>
+            <button class="button" onclick="openLink('https://docs.google.com/spreadsheets/d/1iVXM9Z7bCnL6L5eWbREfR9CSSanfQPNZn_Ts8sferoI/edit?gid=837807594#gid=837807594')"><i class="fas fa-clipboard-list"></i>ฉ. 11</button>
+            <button class="button button-risk" onclick="openLink('https://script.google.com/macros/s/AKfycbxu6FVMhFphXZXoNqh4OKChyvT10qtzGfbBc3qix7Kkfw7CzPGspSQWRr8Pblw-Tc5x/exec')"><i class="fas fa-triangle-exclamation"></i>รายงานความเสี่ยง</button>
+            
+        </div>
+
+        <div class="column">
+            <h2>คลังความรู้</h2>
+            <button class="button blink-button button-knowledge" onclick="openPdfModal('https://drive.google.com/file/d/1y8bDNyZkjXiHjgJdOb7cL5NeiWJEsvka/view?usp=drive_link', 'ยาที่ใช้บ่อยในทันตกรรม')"><i class="fas fa-book-open"></i>ยาที่ใช้บ่อยในทันตกรรม</button>
+            
+            <button class="button blink-button button-knowledge" onclick="openDrugHtmlModal()"><i class="fas fa-file-medical"></i> ยาที่ใช้บ่อยในทันตกรรม Ver.html</button>
+            <button class="button blink-button button-knowledge" onclick="openPdfModal('https://drive.google.com/file/d/1tt6rLS2NDkaQHZjszv7t1H5hmrfQmE48/view?usp=drive_link', 'Dental Safety Goal 2015')"><i class="fas fa-shield-halved"></i>Dental Safety Goal 2015</button>
+            
+            <button class="button blink-button button-knowledge" onclick="openTranexamicModal()"><i class="fas fa-capsules"></i>การใช้ Tranexamic acid</button>
+            <button class="button blink-button button-knowledge" onclick="openWisdomToothModal()"><i class="fas fa-procedures"></i>คำแนะนำหลังผ่าฟันคุด</button>
+            <button class="button blink-button button-knowledge" onclick="openRootCanalModal()"><i class="fas fa-tooth"></i>คำแนะนำหลังรักษารากฟัน</button>
+            <button class="button blink-button button-knowledge" onclick="openDentureModal()"><i class="fas fa-smile"></i>คำแนะนำหลังใส่ฟันปลอม</button>
+            <button class="button" style="background-color: #FFC107; color: #000; border-color: #FFB300;" onclick="openNotesModal()"><i class="fas fa-sticky-note"></i>Note ต่าง ๆ ในเเต่ละปี</button>
+            <button class="button blink-button button-knowledge" onclick="openAvulsionModal()"><i class="fas fa-tooth"></i>Tooth Avulsion management</button>
+        </div>
+
+        <div class="column column-full">
+            <div class="calendar-card">
+                <div class="calendar-header">
+                    <h2 class="calendar-title"><i class="fa-solid fa-calendar-days" style="margin-right:8px"></i>ปฏิทินงานทันตกรรม</h2>
+                </div>
+                <iframe class="calendar-frame" src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=Asia%2FBangkok&showPrint=0&title=%E0%B8%97%E0%B8%B1%E0%B8%99%E0%B8%95%E0%B8%81%E0%B8%A3%E0%B8%A3%E0%B8%A1&src=ZjM5OGE5Yzk0MTEyZDRkOTE2Mzg5ZTY5OGRkMTNiNWM2NjMzNWNhZjAzZmI5ODk3ODkwNThlOWVjZjAzZjQ2ZkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=M2E4NDcyMGM3YzQyMTE4ZjFjNDg0NTYxNTQ5MzVjYzhkNjVhMTM1MDhiMGY3YjhkNmYzNThiMDRjOGY3MzE2MUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23ff0000&color=%230dff00" frameborder="0" scrolling="no" loading="lazy" referrerpolicy="no-referrer"></iframe>
+            </div>
+        </div>
+
+        <div class="column column-full">
+            <div class="calendar-card">
+                <div class="calendar-header">
+                    <h2 class="calendar-title"><i class="fa-solid fa-chart-line" style="margin-right:8px;"></i>Dashboard Looker Studio</h2>
+                </div>
+                <iframe src="https://lookerstudio.google.com/embed/reporting/86c83018-26eb-4b4f-8368-b05692f208da/page/w9n5C" class="calendar-frame" frameborder="0" style="border:0" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+            </div>
+        </div>
+
+        <div class="column column-full">
+            <div class="calendar-card">
+                <div class="calendar-header">
+                    <h2 class="calendar-title" style="color: #008B4B;">
+                        <i class="fas fa-table" style="margin-right:8px;"></i>
+                        ตารางสรุปงานส่งเสริมป้องกัน (KPI 22, 25 และภาพรวม 0-5 ปี)
+                    </h2>
+                </div>
+                <div id="table-output-combined" style="overflow-x: auto; padding: 10px;">
+                    <div class="moph-muted" style="text-align:center;">กำลังโหลดข้อมูล...</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="column column-full">
+            <div class="calendar-card">
+                <div class="calendar-header">
+                    <h2 class="calendar-title" style="color: #008B4B;">
+                        <i class="fas fa-trophy" style="margin-right:8px;"></i>
+                        ลำดับผลงานร้อยละเด็ก 0-5 ปี ฟันดีไม่มีผุ (ภาพรวมรายอำเภอ จ.สกลนคร)
+                    </h2>
+                </div>
+                <div style="position: relative; height: 500px; width: 100%; margin-bottom: 20px;">
+                    <canvas id="cavityRankingChart"></canvas>
+                </div>
+                <div id="table-output-ranking" style="overflow-x: auto; padding: 10px;">
+                    <div class="moph-muted" style="text-align:center;">กำลังโหลดข้อมูล...</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="column column-full">
+            <div class="calendar-card">
+                <div class="calendar-header">
+                    <h2 class="calendar-title" style="color: #008B4B;">
+                        <i class="fas fa-smile-beam" style="margin-right:8px;"></i>
+                        แผนภูมิแสดง ร้อยละของเด็กอายุ 0-5 ปี ฟันดีไม่มีผุ (รายตำบล อ.เจริญศิลป์)
+                    </h2>
+                </div>
+                <div style="position: relative; height: 350px; width: 100%; margin-bottom: 20px;">
+                    <canvas id="cavityFreeChart"></canvas>
+                </div>
+                <div id="table-output-cavity" style="overflow-x: auto; padding: 10px;">
+                    <div class="moph-muted" style="text-align:center;">กำลังโหลดข้อมูล...</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="kpi-charts" class="column-full"></div>
+
+    </div>
+
+    <div class="sticky-sidebar collapsed" id="sidebar-container">
+        <div class="sidebar-toggler" onclick="toggleSidebar()" title="ซ่อน/แสดงแถบเครื่องมือ">
+            <i class="fas fa-chevron-left" id="toggle-icon"></i>
+        </div>
+        <div class="sticky-button chatgpt" onclick="openLink('https://chatgpt.com/')" data-tooltip="Chat GPT">
+            <i class="fas fa-robot"></i> 
+        </div>
+        <div class="sticky-button gemini" onclick="openLink('https://gemini.google.com/')" data-tooltip="Google Gemini">
+            <i class="fas fa-globe"></i>
+        </div>
+    </div>
+
+    <script>
+    // ==========================================
+    // 1. Helper Functions
+    // ==========================================
+    function openLink(url) { window.open(url, '_blank'); }
+
+    function openPdfModal(url, title) {
+        var embedUrl, downloadUrl, printUrl;
+        if (url.includes('drive.google.com') && url.includes('/d/')) {
+            var fileIdMatch = url.match(/\/d\/(.+?)\//);
+            if (fileIdMatch) {
+                var fileId = fileIdMatch[1];
+                embedUrl = "https://drive.google.com/file/d/" + fileId + "/preview";
+                downloadUrl = "https://drive.google.com/uc?export=download&id=" + fileId;
+                printUrl = "https://drive.google.com/file/d/" + fileId + "/view";
+            } else { embedUrl = url; downloadUrl = url; printUrl = url; }
+        } else { embedUrl = url; downloadUrl = url; printUrl = url; }
+
+        document.getElementById('pdfModalTitle').innerText = title;
+        document.getElementById('pdfFrame').src = embedUrl;
+        document.getElementById('btnDownloadPdf').onclick = function() { window.open(downloadUrl, '_blank'); };
+        document.getElementById('btnPrintPdf').onclick = function() { window.open(printUrl, '_blank'); };
+        document.getElementById('pdfModal').style.display = "flex";
     }
-    .spinner {
-      width:60px; height:60px; border:6px solid #f3f3f3; border-top:6px solid #3498db;
-      border-radius:50%; animation:spin 1s cubic-bezier(.55,.055,.675,.19) infinite; margin-bottom:20px;
+
+    function closePdfModal() {
+        document.getElementById('pdfModal').style.display = "none";
+        document.getElementById('pdfFrame').src = "";
     }
-    @keyframes spin{ 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
-    .loading-text { font-family:'Sarabun',sans-serif; font-size:1.2rem; color:#555; font-weight:bold; animation:pulse-text 1.5s infinite ease-in-out; }
-    @keyframes pulse-text{ 0%,100%{opacity:1} 50%{opacity:.5} }
-  </style>
+
+    function toggleSidebar() {
+        var sidebar = document.getElementById('sidebar-container');
+        var icon = document.getElementById('toggle-icon');
+        sidebar.classList.toggle('collapsed');
+        if (sidebar.classList.contains('collapsed')) {
+            icon.classList.remove('fa-chevron-right'); icon.classList.add('fa-chevron-left');
+        } else {
+            icon.classList.remove('fa-chevron-left'); icon.classList.add('fa-chevron-right');
+        }
+    }
+
+    function normalizeHospcode(code) {
+        let s = String(code || '').trim();
+        while (s.length < 5 && s.length > 0) { s = '0' + s; }
+        return s;
+    }
+
+    // ==========================================
+    // 2. DOMContentLoaded Logic (Load Stats & Charts)
+    // ==========================================
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        // 2.1 โหลดตัวเลขรายได้ 5 ยอด (รวม Total)
+        // --- fetch แทน google.script.run ---
+        var fmt = function(v) {
+            return (typeof v === 'number')
+                ? v.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                : v;
+        };
+        fetch('https://script.google.com/macros/s/AKfycbxlkSVaMOKZt-do8hcFNj85m_7G-RlQ1VljBvnAauiPjD6yg93qL9GLGlOi-Vj9P30maQ/exec?fn=getDashboardStats')
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                document.getElementById('social-sum').innerText = fmt(data.social);
+                document.getElementById('fluoride-sum').innerText = fmt(data.fluoride);
+                document.getElementById('anc-sum').innerText = fmt(data.anc);
+                document.getElementById('denture-sum').innerText = fmt(data.denture);
+                document.getElementById('total-sum').innerText = fmt(data.total);
+            })
+            .catch(function() {
+                ['social-sum','fluoride-sum','anc-sum','denture-sum','total-sum'].forEach(function(id) {
+                    document.getElementById(id).innerText = 'N/A';
+                });
+            });
+
+        // 2.2 จัดการ Modal กราฟรายเดือน
+        var modal = document.getElementById("incomeModal");
+        var btn = document.getElementById("income-button");
+        var span = document.querySelector("#incomeModal .close");
+        var chartContext = document.getElementById('incomeChart').getContext('2d');
+        var myChart;
+
+        btn.onclick = function() { modal.style.display = "flex"; loadMonthlyData(); }
+        if (span) {
+            span.onclick = function() { modal.style.display = "none"; }
+        }
+        
+        span.onclick = function() { modal.style.display = "none"; }
+        window.onclick = function(event) {
+            if (event.target == modal) modal.style.display = "none";
+            if (event.target == document.getElementById("pdfModal")) closePdfModal();
+        }
+
+        function loadMonthlyData() {
+            Chart.register(ChartDataLabels);
+            if (myChart) myChart.destroy();
+            // --- fetch แทน google.script.run ---
+            fetch('https://script.google.com/macros/s/AKfycbxlkSVaMOKZt-do8hcFNj85m_7G-RlQ1VljBvnAauiPjD6yg93qL9GLGlOi-Vj9P30maQ/exec?fn=getMonthlyBreakdown')
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    var labels = data.map(function(item) { return item.label; });
+                    var amounts = data.map(function(item) { return item.amount; });
+                    myChart = new Chart(chartContext, {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'ยอดเบิก (บาท)', data: amounts,
+                                backgroundColor: 'rgba(54, 162, 235, 0.6)', borderColor: 'rgba(54, 162, 235, 1)', borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true, layout: { padding: { top: 30 } },
+                            plugins: {
+                                legend: { display: false },
+                                datalabels: { anchor: 'end', align: 'top', formatter: function(value) { return value.toLocaleString(); }, font: { family: 'Sarabun', weight: 'bold', size: 12 }, color: '#333' }
+                            },
+                            scales: { y: { beginAtZero: true, title: { display: true, text: 'จำนวนเงิน (บาท)' } } }
+                        }
+                    });
+                })
+                .catch(function(e) { console.warn('getMonthlyBreakdown error:', e); });
+        }
+    });
+
+    // ==========================================
+    // 3. Combined KPI Table (22, 25, Sum)
+    // ==========================================
+    (async function() {
+        const HOSP_MAP = { '05574': 'รพ.สต.บ้านกุดนาขาม', '05575': 'รพ.สต.บ้านเหล่า', '05576': 'รพ.สต.บ้านหนองแวง', '05577': 'รพ.สต.บ้านดอนสร้างไพร', '05578': 'รพ.สต.บ้านโคกศิลา', '05579': 'รพ.สต.บ้านดงสง่า', '11102': 'โรงพยาบาลเจริญศิลป์' };
+        const TARGET_HOSPCODES = Object.keys(HOSP_MAP); 
+        const url22 = 'https://opendata.moph.go.th/api/report_data/s_kpi_dental22/2569'; 
+        const url25 = 'https://opendata.moph.go.th/api/report_data/s_kpi_dental25/2569'; 
+        const outputDiv = document.getElementById('table-output-combined');
+
+        try {
+            const [res22, res25] = await Promise.all([fetch(url22), fetch(url25)]);
+            const json22 = await res22.json(); const json25 = await res25.json();
+            const data22 = Array.isArray(json22) ? json22 : (json22.data || json22.result || []);
+            const data25 = Array.isArray(json25) ? json25 : (json25.data || json25.result || []);
+
+            const aggregate = (rawData) => {
+                let map = {}; TARGET_HOSPCODES.forEach(code => map[code] = { A: 0, B: 0 });
+                rawData.forEach(item => {
+                    const code = normalizeHospcode(item.hospcode || item.HOSPCODE);
+                    if (map[code]) {
+                        map[code].A += parseFloat(String(item.result || item.RESULT || 0).replace(/,/g, '')) || 0;
+                        map[code].B += parseFloat(String(item.target || item.TARGET || 0).replace(/,/g, '')) || 0;
+                    }
+                }); return map;
+            };
+
+            const summary22 = aggregate(data22); const summary25 = aggregate(data25);
+            let rowsHtml = '';
+            let total22 = { A: 0, B: 0 }; let total25 = { A: 0, B: 0 }; let totalSum = { A: 0, B: 0 };
+
+            TARGET_HOSPCODES.forEach(code => {
+                const d22 = summary22[code]; const d25 = summary25[code];
+                const dSum = { A: d22.A + d25.A, B: d22.B + d25.B };
+                total22.A += d22.A; total22.B += d22.B;
+                total25.A += d25.A; total25.B += d25.B;
+                totalSum.A += dSum.A; totalSum.B += dSum.B;
+
+                const rate22 = d22.B > 0 ? ((d22.A / d22.B) * 100).toFixed(2) : '0.00';
+                const rate25 = d25.B > 0 ? ((d25.A / d25.B) * 100).toFixed(2) : '0.00';
+                const rateSum = dSum.B > 0 ? ((dSum.A / dSum.B) * 100).toFixed(2) : '0.00';
+
+                rowsHtml += `<tr>
+                    <td>${code}:${HOSP_MAP[code]}</td>
+                    <td>${d22.B.toLocaleString()}</td><td>${d22.A.toLocaleString()}</td><td style="font-weight:bold; color:${rate22 >= 55 ? '#008B4B' : '#d32f2f'}">${rate22}</td>
+                    <td style="background-color:#f0f8ff">${d25.B.toLocaleString()}</td><td style="background-color:#f0f8ff">${d25.A.toLocaleString()}</td><td style="background-color:#f0f8ff; font-weight:bold; color:${rate25 >= 60 ? '#1976D2' : '#d32f2f'}">${rate25}</td>
+                    <td style="background-color:#fff3e0">${dSum.B.toLocaleString()}</td><td style="background-color:#fff3e0">${dSum.A.toLocaleString()}</td><td style="background-color:#fff3e0; font-weight:bold; color:${rateSum >= 60 ? '#E65100' : '#d32f2f'}">${rateSum}</td>
+                </tr>`;
+            });
+
+            const totalRate22 = total22.B > 0 ? ((total22.A / total22.B) * 100).toFixed(2) : '0.00';
+            const totalRate25 = total25.B > 0 ? ((total25.A / total25.B) * 100).toFixed(2) : '0.00';
+            const totalRateSum = totalSum.B > 0 ? ((totalSum.A / totalSum.B) * 100).toFixed(2) : '0.00';
+
+            outputDiv.innerHTML = `<table class="custom-table"><thead>
+                <tr><th rowspan="2" style="width:20%; background-color:#2E7D32;">หน่วยบริการ</th><th colspan="3" class="main-header" style="background-color:#2E7D32;">เด็ก 0-2 ปี ฝึกแปรงฟัน (KPI 22)</th><th colspan="3" class="main-header" style="background-color:#1565C0;">เด็ก 3-5 ปี เคลือบฟลูออไรด์ (KPI 25)</th><th colspan="3" class="main-header" style="background-color:#EF6C00;">ร้อยละเด็ก 0-5 ปี เคลือบฟลูออไรด์</th></tr>
+                <tr><th style="background-color:#43A047;">B (เป้า)</th><th style="background-color:#43A047;">A (ผล)</th><th style="background-color:#43A047;">อัตรา (%)</th><th style="background-color:#1E88E5;">B (เป้า)</th><th style="background-color:#1E88E5;">A (ผล)</th><th style="background-color:#1E88E5;">อัตรา (%)</th><th style="background-color:#F57C00;">B (รวม)</th><th style="background-color:#F57C00;">A (รวม)</th><th style="background-color:#F57C00;">อัตรา (%)</th></tr>
+                </thead><tbody>${rowsHtml}</tbody><tfoot><tr><td>รวมทั้งหมด</td><td>${total22.B.toLocaleString()}</td><td>${total22.A.toLocaleString()}</td><td>${totalRate22}</td><td>${total25.B.toLocaleString()}</td><td>${total25.A.toLocaleString()}</td><td>${totalRate25}</td><td>${totalSum.B.toLocaleString()}</td><td>${totalSum.A.toLocaleString()}</td><td>${totalRateSum}</td></tr></tfoot></table>`;
+        } catch (err) { outputDiv.innerHTML = `<div style="color:red;text-align:center;">โหลดข้อมูลล้มเหลว: ${err.message}</div>`; }
+    })();
+
+    // ==========================================
+    // 4. NEW (Ranking): กราฟจัดลำดับรายอำเภอ (18 อำเภอ)
+    // ==========================================
+    (async function() {
+        const AMPHOE_MAP = {
+            '4701': 'เมืองสกลนคร', '4702': 'กุสุมาลย์', '4703': 'กุดบาก', '4704': 'พรรณานิคม', '4705': 'พังโคน', '4706': 'วาริชภูมิ',
+            '4707': 'นิคมน้ำอูน', '4708': 'วานรนิวาส', '4709': 'คำตากล้า', '4710': 'บ้านม่วง', '4711': 'อากาศอำนวย', '4712': 'สว่างแดนดิน',
+            '4713': 'ส่องดาว', '4714': 'เต่างอย', '4715': 'โคกศรีสุพรรณ', '4716': 'เจริญศิลป์', '4717': 'โพนนาแก้ว', '4718': 'ภูพาน'
+        };
+        const TARGET_AMPHOES = Object.keys(AMPHOE_MAP);
+        const API_URL = 'https://opendata.moph.go.th/api/report_data/s_dental_0_5_cavity_free/2569';
+        const ctx = document.getElementById('cavityRankingChart').getContext('2d');
+        const outputDiv = document.getElementById('table-output-ranking');
+
+        try {
+            const res = await fetch(API_URL);
+            const json = await res.json();
+            const rawData = Array.isArray(json) ? json : (json.data || json.result || json.rows || []);
+
+            // 1. รวบรวมข้อมูลรายอำเภอ
+            let amphoeStats = {};
+            TARGET_AMPHOES.forEach(code => amphoeStats[code] = { A: 0, B: 0, C: 0 });
+
+            rawData.forEach(item => {
+                const areaCode = String(item.areacode || item.AREACODE || '').trim();
+                if (areaCode.length >= 4) {
+                    const amphoeCode = areaCode.substring(0, 4);
+                    
+                    if (amphoeStats[amphoeCode]) {
+                        // ดึงค่า a, b, c จาก API ตัวใหม่
+                        const valA = parseFloat(String(item.a || item.A || 0).replace(/,/g, '')) || 0;
+                        const valB = parseFloat(String(item.b || item.B || 0).replace(/,/g, '')) || 0;
+                        const valC = parseFloat(String(item.c || item.C || 0).replace(/,/g, '')) || 0;
+                        
+                        amphoeStats[amphoeCode].A += valA;
+                        amphoeStats[amphoeCode].B += valB;
+                        amphoeStats[amphoeCode].C += valC;
+                    }
+                }
+            });
+
+            // 2. คำนวณร้อยละ
+            let rankingData = [];
+            let grandTotal = { A:0, B:0, C:0 };
+
+            TARGET_AMPHOES.forEach(code => {
+                const stat = amphoeStats[code];
+                grandTotal.A += stat.A; grandTotal.B += stat.B; grandTotal.C += stat.C;
+
+                const pctExam = stat.C > 0 ? (stat.B / stat.C) * 100 : 0;
+                const pctCavity = stat.B > 0 ? (stat.A / stat.B) * 100 : 0;
+                
+                rankingData.push({
+                    code: code,
+                    name: AMPHOE_MAP[code],
+                    valA: stat.A, valB: stat.B, valC: stat.C,
+                    pctExam: pctExam,
+                    pctCavity: pctCavity
+                });
+            });
+
+            // 3. เรียงลำดับ (มาก -> น้อย)
+            rankingData.sort((a, b) => b.pctCavity - a.pctCavity);
+
+            // 4. Render Chart
+            const backgroundColors = rankingData.map(d => d.code === '4716' ? '#2E7D32' : '#BDBDBD');
+            
+            Chart.register(ChartDataLabels, window['chartjs-plugin-annotation']);
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: rankingData.map(d => d.name),
+                    datasets: [{
+                        label: 'ร้อยละฟันดีไม่มีผุ (0-5 ปี)',
+                        data: rankingData.map(d => d.pctCavity.toFixed(2)),
+                        backgroundColor: backgroundColors,
+                        borderRadius: 4,
+                        barPercentage: 0.6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        datalabels: { anchor: 'end', align: 'top', formatter: (val) => val + '%', font: { weight: 'bold', size: 11 }, color: '#333' },
+                        annotation: {
+                            annotations: {
+                                line1: {
+                                    type: 'line', yMin: 80, yMax: 80,
+                                    borderColor: 'red', borderWidth: 2, borderDash: [5, 5],
+                                    label: { enabled: true, content: 'เกณฑ์ 80%', position: 'end', backgroundColor: 'rgba(255,0,0,0.8)', color: 'white', font: {size: 10} }
+                                }
+                            }
+                        }
+                    },
+                    scales: { y: { beginAtZero: true, max: 100, title: { display: true, text: 'ร้อยละ (%)' } }, x: { ticks: { maxRotation: 45, minRotation: 45 } } }
+                }
+            });
+
+            // 5. Render Table (ใต้กราฟ)
+            let tableRows = '';
+            rankingData.forEach(d => {
+                const colorClass = d.code === '4716' ? 'background-color: #2E7D32; color: white;' : '';
+                
+                tableRows += `<tr style="${colorClass}">
+                    <td style="text-align:left;">${d.name}</td>
+                    <td>${d.valC.toLocaleString()}</td>
+                    <td>${d.valB.toLocaleString()}</td>
+                    <td>${d.pctExam.toFixed(2)}</td>
+                    <td>${d.valA.toLocaleString()}</td>
+                    <td style="font-weight:bold;">${d.pctCavity.toFixed(2)}</td>
+                </tr>`;
+            });
+
+            const totalPctExam = grandTotal.C > 0 ? ((grandTotal.B / grandTotal.C) * 100).toFixed(2) : '0.00';
+            const totalPctCavity = grandTotal.B > 0 ? ((grandTotal.A / grandTotal.B) * 100).toFixed(2) : '0.00';
+
+            outputDiv.innerHTML = `<table class="custom-table" style="width:100%; margin-top:10px;">
+                <thead>
+                    <tr style="background-color: #424242; color: white;">
+                        <th rowspan="2" style="vertical-align: middle;">อำเภอ</th>
+                        <th colspan="5" style="text-align: center; border-bottom: 1px solid white;">ภาพรวมรายอำเภอ (อายุ 0-5 ปี)</th>
+                    </tr>
+                    <tr style="background-color: #616161; color: white; font-size: 0.9em;">
+                        <th>เด็กทั้งหมด (C)</th>
+                        <th>ตรวจ (B)</th>
+                        <th>ร้อยละการตรวจ (B/C)</th>
+                        <th>ฟันดี (A)</th>
+                        <th>ร้อยละฟันดี (A/B)</th>
+                    </tr>
+                </thead>
+                <tbody>${tableRows}</tbody>
+                <tfoot style="background-color: #f2f2f2; color: #333; font-weight: bold;">
+                    <tr>
+                        <td style="text-align:left;">รวมทั้งจังหวัด</td>
+                        <td>${grandTotal.C.toLocaleString()}</td>
+                        <td>${grandTotal.B.toLocaleString()}</td>
+                        <td>${totalPctExam}</td>
+                        <td>${grandTotal.A.toLocaleString()}</td>
+                        <td>${totalPctCavity}</td>
+                    </tr>
+                </tfoot>
+            </table>`;
+
+        } catch (err) {
+            console.error("Ranking Chart Error:", err);
+            outputDiv.innerHTML = `<div style="color:red;">โหลดข้อมูลไม่สำเร็จ: ${err.message}</div>`;
+        }
+    })();
+
+    // =========================================================
+    // 5. NEW: KPI Cavity Free 0-5 Years (รายตำบล อ.เจริญศิลป์)
+    // =========================================================
+    (async function() {
+        const TAMBON_GROUP = {
+            'บ้านเหล่า': ['05575', '05576'],
+            'เจริญศิลป์': ['11102', '05574'],
+            'ทุ่งแก': ['05577'],
+            'โคกศิลา': ['05578'],
+            'หนองแปน': ['05579']
+        };
+        const API_URL = 'https://opendata.moph.go.th/api/report_data/s_dental_0_5_cavity_free/2569';
+        const outputDiv = document.getElementById('table-output-cavity');
+        const chartCtx = document.getElementById('cavityFreeChart').getContext('2d');
+
+        try {
+            const res = await fetch(API_URL);
+            const json = await res.json();
+            const rawData = Array.isArray(json) ? json : (json.data || json.result || json.rows || []);
+
+            let tambonData = {};
+            for (let tName in TAMBON_GROUP) {
+                tambonData[tName] = { A: 0, B: 0, C: 0 };
+            }
+
+            rawData.forEach(item => {
+                const code = normalizeHospcode(item.hospcode || item.HOSPCODE);
+                for (let tName in TAMBON_GROUP) {
+                    if (TAMBON_GROUP[tName].includes(code)) {
+                        const valA = parseFloat(String(item.a || item.A || 0).replace(/,/g, '')) || 0;
+                        const valB = parseFloat(String(item.b || item.B || 0).replace(/,/g, '')) || 0;
+                        const valC = parseFloat(String(item.c || item.C || 0).replace(/,/g, '')) || 0;
+                        tambonData[tName].A += valA;
+                        tambonData[tName].B += valB;
+                        tambonData[tName].C += valC;
+                        break; 
+                    }
+                }
+            });
+
+            let tableRows = '';
+            let chartLabels = [];
+            let chartData = [];
+            let chartColors = [];
+            let grandTotal = { A:0, B:0, C:0 };
+
+            for (let tName in tambonData) {
+                const d = tambonData[tName];
+                grandTotal.A += d.A; grandTotal.B += d.B; grandTotal.C += d.C;
+                const pctExam = d.C > 0 ? ((d.B / d.C) * 100).toFixed(2) : '0.00';
+                const pctCavity = d.B > 0 ? ((d.A / d.B) * 100).toFixed(2) : '0.00';
+
+                chartLabels.push(tName);
+                chartData.push(pctCavity);
+                chartColors.push(parseFloat(pctCavity) >= 80 ? '#90EE90' : '#FFB74D');
+
+                tableRows += `<tr>
+                    <td style="text-align:left;">${tName}</td>
+                    <td>${d.C.toLocaleString()}</td>
+                    <td>${d.B.toLocaleString()}</td>
+                    <td>${pctExam}</td>
+                    <td>${d.A.toLocaleString()}</td>
+                    <td style="font-weight:bold;">${pctCavity}</td>
+                </tr>`;
+            }
+
+            const totalPctExam = grandTotal.C > 0 ? ((grandTotal.B / grandTotal.C) * 100).toFixed(2) : '0.00';
+            const totalPctCavity = grandTotal.B > 0 ? ((grandTotal.A / grandTotal.B) * 100).toFixed(2) : '0.00';
+
+            chartLabels.unshift('รวม');
+            chartData.unshift(totalPctCavity);
+            chartColors.unshift('#90EE90');
+
+            outputDiv.innerHTML = `<table class="custom-table" style="width:100%;">
+                <thead>
+                    <tr style="background-color: #198754; color: white;">
+                        <th rowspan="2" style="vertical-align: middle;">ตำบล</th>
+                        <th colspan="5" style="text-align: center; border-bottom: 1px solid white;">อายุ 0-5</th>
+                    </tr>
+                    <tr style="background-color: #198754; color: white; font-size: 0.9em;">
+                        <th>เด็กทั้งหมดคน (C)</th>
+                        <th>ตรวจช่องปาก (คน) (B)</th>
+                        <th>ร้อยละ (B/C) x 100</th>
+                        <th>ฟันดีไม่มีผุ (คน) (A)</th>
+                        <th>ร้อยละ (A/B) x 100</th>
+                    </tr>
+                </thead>
+                <tbody>${tableRows}</tbody>
+                <tfoot style="background-color: #6c757d; color: white;">
+                    <tr>
+                        <td style="text-align:left;">รวม</td>
+                        <td>${grandTotal.C.toLocaleString()}</td>
+                        <td>${grandTotal.B.toLocaleString()}</td>
+                        <td>${totalPctExam}</td>
+                        <td>${grandTotal.A.toLocaleString()}</td>
+                        <td>${totalPctCavity}</td>
+                    </tr>
+                </tfoot>
+            </table>`;
+
+            Chart.register(ChartDataLabels);
+            if (window.myCavityChart) window.myCavityChart.destroy();
+            
+            window.myCavityChart = new Chart(chartCtx, {
+                type: 'bar',
+                data: {
+                    labels: chartLabels,
+                    datasets: [{ data: chartData, backgroundColor: chartColors, barPercentage: 0.5 }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        datalabels: { anchor: 'end', align: 'end', formatter: (val) => val + '%', font: { weight: 'bold', size: 11 }, color: '#333' },
+                        annotation: {
+                            annotations: {
+                                line1: {
+                                    type: 'line', yMin: 80, yMax: 80, borderColor: 'green', borderWidth: 1, borderDash: [5, 5],
+                                    label: { enabled: true, content: 'เป้าหมาย 80', position: 'start', backgroundColor: 'rgba(255,255,255,0.8)', color: 'red', font: {size: 10} }
+                                }
+                            }
+                        }
+                    },
+                    scales: { y: { beginAtZero: true, max: 100, grid: { drawBorder: false } }, x: { grid: { display: false } } }
+                }
+            });
+        } catch (err) { outputDiv.innerHTML = `<div style="color:red;text-align:center;">โหลดข้อมูลล้มเหลว: ${err.message}</div>`; }
+    })();
+
+    // 6. KPI Charts Logic (Original) - เก็บไว้เหมือนเดิม
+    (function () {
+        const CONFIGS = [
+            { title: 'OHSP ร้อยละหญิงตั้งครรภ์ได้รับการตรวจสุขภาพช่องปากและขัดทำความสะอาดฟัน รายโรงพยาบาล (คน)', apiUrl: 'https://opendata.moph.go.th/api/report_data/s_kpi_dental18/2569', highlightCodes: ['11102'], decimals: 2, threshold: 50 },
+            { title: 'OHSP ร้อยละเด็ก 0–2 ปี ผู้ปกครองได้รับการฝึกแปรงฟันแบบลงมือปฏิบัติ หรือ ได้รับการฝึกแปรงฟันแบบลงมือปฏิบัติ และ plaque control (นับรวมฝึกผู้ปกครองทำความสะอาดช่องปาก)', apiUrl: 'https://opendata.moph.go.th/api/report_data/s_kpi_dental21/2569', highlightCodes: ['11102'], decimals: 2, threshold: 55 },
+            { title: 'OHSP ร้อยละเด็กกลุ่มอายุ 3 ปีได้รับการตรวจสุขภาพช่องปาก', apiUrl: 'https://opendata.moph.go.th/api/report_data/s_kpi_dental36/2569', highlightCodes: ['11102'], decimals: 2, threshold: 50, getPct: (g) => g.total > 0 ? (g.target * 100) / g.total : 0 },
+            { title: 'OHSP ร้อยละเด็กอายุ 4-12 ปี ได้รับการ เคลือบ/ทา ฟลูออไรด์ รายโรงพยาบาล (คน)', apiUrl: 'https://opendata.moph.go.th/api/report_data/s_kpi_dental63/2569', highlightCodes: ['11102'], decimals: 2, threshold: 30 },
+            { title: 'OHSP ร้อยละเด็ก 6-12 ปี ได้รับบริการทันตกรรม (คน)', apiUrl: 'https://opendata.moph.go.th/api/report_data/s_kpi_dental30/2569', highlightCodes: ['11102'], decimals: 2, threshold: 60 },
+            { title: 'OHSP ร้อยละเด็ก 6-12 ปี ได้รับการตรวจช่องปาก รายโรงพยาบาล (คน)', apiUrl: 'https://opendata.moph.go.th/api/report_data/s_kpi_dental27/2569', highlightCodes: ['11102'], decimals: 2, threshold: 60 },
+            { title: 'OHSP ร้อยละเด็กอายุ 6-12 ปี ได้รับการ เคลือบหลุมร่องฟันกรามแท้ รายโรงพยาบาล (คน)', apiUrl: 'https://opendata.moph.go.th/api/report_data/s_kpi_dental64/2569', highlightCodes: ['11102'], decimals: 2 },
+            { title: 'OHSP ร้อยละผู้สูงอายุ ได้รับการตรวจช่องปาก รายโรงพยาบาล (คน)', apiUrl: 'https://opendata.moph.go.th/api/report_data/s_kpi_dental33/2569', highlightCodes: ['11102'], decimals: 2, threshold: 40 },
+            { title: 'OHSP อัตรา (ร้อยละ) การใช้บริการ P&P ในกลุ่มผู้สูงอายุ รายโรงพยาบาล (คน)', apiUrl: 'https://opendata.moph.go.th/api/report_data/s_kpi_dental10/2569', highlightCodes: ['11102'], decimals: 2, threshold: 30 }
+        ];
+
+        const TARGET_CODES = ['10710','11089','11090','11091','11092','11093','11094','11095','11096','11097','11098','11099','11100','11101','11102','11103','11450','11505','21323','24976'];
+        const CODE_NAME_MAP = { '10710':'โรงพยาบาลสกลนคร','11089':'โรงพยาบาลกุสุมาลย์','11090':'โรงพยาบาลกุดบาก','11091':'โรงพยาบาลพระอาจารย์ฝั้นอาจาโร','11092':'โรงพยาบาลพังโคน','11093':'โรงพยาบาลวาริชภูมิ','11094':'โรงพยาบาลนิคมน้ำอูน','11095':'โรงพยาบาลวานรนิวาส','11096':'โรงพยาบาลคำตากล้า','11097':'โรงพยาบาลพระอาจารย์มั่น ภูริทัตโต','11098':'โรงพยาบาลอากาศอำนวย','11099':'โรงพยาบาลพระอาจารย์วัน อุตฺตโม','11100':'โรงพยาบาลเต่างอย','11101':'โรงพยาบาลโคกศรีสุพรรณ','11102':'โรงพยาบาลเจริญศิลป์','11103':'โรงพยาบาลโพนนาแก้ว','11450':'โรงพยาบาลสมเด็จพระยุพราชสว่างแดนดิน','11505':'โรงพยาบาลค่ายกฤษณ์สีวะรา','21323':'โรงพยาบาลพระอาจารย์แบน ธนากโร','24976':'โรงพยาบาลการแพทย์แผนไทยสกลนคร หลวงปู่แฟ๊ป สุภัทโท' };
+        const toNum = v => parseFloat(String(v).replace(/,/g,'')) || 0;
+        const esc = s => String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+        const guessRows = j => Array.isArray(j) ? j : (j?.data||j?.result||j?.records||[]);
+
+        function createCard(mount, title, hostId) {
+            const wrap = document.createElement('div'); wrap.className = 'column column-full';
+            wrap.innerHTML = `<div class="calendar-card"><div class="calendar-header"><h2 class="calendar-title"><i class="fa-solid fa-chart-column" style="margin-right:8px;"></i>${esc(title)}</h2></div><div id="${hostId}" class="chart-host"><div class="moph-muted">กำลังคำนวณ…</div></div></div>`;
+            mount.appendChild(wrap);
+        }
+
+        async function loadChart(apiUrl, hostId, conf = {}) {
+            const { highlightCodes = ['11102'], decimals = 2 } = conf; const host = document.getElementById(hostId); if (!host) return;
+            host.innerHTML = `<div class="moph-muted">กำลังโหลดข้อมูล...</div>`;
+            try {
+                const res = await fetch(apiUrl, { headers: { 'Accept': 'application/json' } });
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const json = await res.json(); renderChart(guessRows(json), host, { ...conf, highlightCodes, decimals });
+            } catch (err) { host.innerHTML = `<div style="padding:10px;color:#666">โหลดข้อมูลไม่ได้: ${String(err.message||err)}</div>`; }
+        }
+
+        function renderChart(rows, host, conf = {}) {
+            const { highlightCodes = ['11102'], decimals = 2 } = conf;
+            rows = rows.filter(r => TARGET_CODES.includes(String(r.hospcode ?? r.HOSPCODE ?? '').trim()));
+            const grouped = new Map();
+            rows.forEach(r => {
+                const code = String(r.hospcode ?? r.HOSPCODE ?? '').trim(); const name = CODE_NAME_MAP[code] || String(r.hospname ?? r.HOSPNAME ?? code).trim();
+                if (!grouped.has(code)) grouped.set(code, { code, name, target: 0, result: 0, total: 0 });
+                const g = grouped.get(code); g.target += toNum(r.target ?? r.TARGET); g.result += toNum(r.result ?? r.RESULT); g.total += toNum(r.total ?? r.TOTAL);
+            });
+            const getPct = (typeof conf.getPct === 'function') ? conf.getPct : (g => g.target > 0 ? (g.result / g.target) * 100 : 0);
+            let items = [...grouped.values()].map(g => { const pct = getPct(g); return { code: g.code, name: g.name, pct: Math.max(0, Math.min(100, pct)) }; }).sort((a, b) => b.pct - a.pct);
+
+            host.innerHTML = `<div class="plot"><div class="frame" style="position:relative;height:480px;margin-top:8px;border-radius:12px;background:#fff;box-shadow: inset 0 0 0 1px #eee;overflow:hidden;padding:8px 16px 80px 86px;"><div class="chart-area" style="position:absolute;inset:8px 16px 80px 86px;"><div class="ylabels" style="position:absolute;left:-70px;top:0;bottom:0;width:60px;display:flex;flex-direction:column;justify-content:space-between;color:#666;font-size:12px;text-align:right;"></div><div class="grid" style="position:absolute;inset:0;"></div><div class="bars" style="position:absolute;left:0;right:0;bottom:0;top:0;display:flex;align-items:flex-end;justify-content:flex-start;"></div></div></div></div>`;
+            const area = host.querySelector('.chart-area'), grid = host.querySelector('.grid'), ylabels = host.querySelector('.ylabels');
+            const ticks = [100, 80, 60, 40, 20, 0]; ylabels.innerHTML = ticks.map(t => `<div>${t}</div>`).join('');
+            const areaH = area.clientHeight;
+            ticks.forEach(t => {
+                const line = document.createElement('div'); line.className = 'line' + (t === 0 ? ' zero' : '');
+                line.style.cssText = 'position:absolute;left:0;right:0;height:1px;background:#e9e9e9;';
+                if (t === 0) { line.style.height = '2px'; line.style.background = '#dcdcdc'; line.style.bottom = '0'; } else { line.style.top = `${areaH - (t/100)*areaH}px`; }
+                grid.appendChild(line);
+            });
+            const n = items.length, W = area.clientWidth, MIN_GAP = 4, MAX_BAR = 64, MIN_BAR = 18;
+            let barW = Math.min(MAX_BAR, Math.floor(W / (n + (n-1)*0.5))), gap = Math.floor((W - n*barW) / Math.max(1, (n-1)));
+            if (gap < MIN_GAP) { gap = MIN_GAP; barW = Math.floor((W - gap*(n-1)) / n); if (barW < MIN_BAR) barW = MIN_BAR; gap = Math.max(MIN_GAP, Math.floor((W - n*barW) / Math.max(1,(n-1)))); }
+            const bars = host.querySelector('.bars'); bars.style.gap = gap + 'px';
+            const hi = new Set(highlightCodes);
+            items.forEach(it => {
+                const col = document.createElement('div'); col.className = 'col'; col.style.cssText = 'position:relative;height:100%;display:flex;flex-direction:column;align-items:center;';
+                const isHL = hi.has(it.code), barStyle = `width:${barW}px;height:0;${isHL ? 'background:#b9e8c2;border:1px solid #a3d8ae;' : 'background:#e0e0e0;border:1px solid #cfcfcf;'}border-bottom:none;border-radius:12px 12px 0 0;position:absolute;bottom:0;transition:height .6s ease;`;
+                col.innerHTML = `<div class="bar" style="${barStyle}"><div class="val" style="position:absolute;left:50%;bottom:100%;transform:translate(-50%,-6px);font-weight:800;background:rgba(255,255,255,.95);padding:3px 8px;border-radius:8px;white-space:nowrap;color:#111;font-size:14px;box-shadow:0 1px 0 rgba(0,0,0,.04);">${it.pct.toFixed(decimals)}%</div></div><div class="xlabel-vert" style="position:absolute;left:50%;bottom:-6px;transform:translateX(-50%) rotate(-90deg);transform-origin:top center;width:${barW}px;text-align:center;line-height:1;font-size:11px;font-weight:700;color:#333;white-space:nowrap;pointer-events:none;opacity:.95;">${esc(it.name)}</div>`;
+                bars.appendChild(col);
+                requestAnimationFrame(() => { col.querySelector('.bar').style.height = (it.pct / 100) * areaH + 'px'; });
+            });
+            if (conf.threshold != null && !isNaN(+conf.threshold)) {
+                const th = Math.max(0, Math.min(100, +conf.threshold)), pos = areaH - (th / 100) * areaH;
+                const thLine = document.createElement('div'); thLine.style.cssText = `position:absolute;left:0;right:0;top:${pos}px;height:2px;background:red;border-top:1px solid red;z-index:5;`;
+                const thLabel = document.createElement('div'); thLabel.textContent = `เกณฑ์ ${th}%`; thLabel.style.cssText = `position:absolute;left:8px;top:${pos - 20}px;background:red;color:#fff;padding:2px 6px;font-size:12px;border-radius:4px;font-weight:700;z-index:6;`;
+                area.appendChild(thLine); area.appendChild(thLabel);
+            }
+        }
+
+        const mount = document.getElementById('kpi-charts');
+        CONFIGS.forEach((c, i) => { const hostId = `chart-host-${i}`; createCard(mount, c.title, hostId); loadChart(c.apiUrl, hostId, c); });
+    })();
+
+    // ==========================================
+    // ส่วนควบคุม Popup ทดสอบ (Auto Close)
+    // ==========================================
+    var testPopupInterval; // ตัวแปรสำหรับเก็บ Timer
+
+    function showTestPopup() {
+        var modal = document.getElementById('testPopup');
+        var timerDisplay = document.getElementById('popupCountDown');
+        var timeLeft = 15; // ตั้งเวลา 15 วินาที
+
+        // แสดง Popup (ใช้ Flex เพื่อให้จัดกึ่งกลางตาม CSS เดิมที่มีอยู่)
+        modal.style.display = "flex"; 
+
+        // เริ่มนับถอยหลัง
+        testPopupInterval = setInterval(function() {
+            timeLeft--;
+            timerDisplay.innerText = timeLeft;
+
+            // เมื่อเวลาหมด
+            if (timeLeft <= 0) {
+                closeTestPopup();
+            }
+        }, 1000);
+    }
+
+    function closeTestPopup() {
+        var modal = document.getElementById('testPopup');
+        modal.style.display = "none";
+        
+        // หยุดเวลา (กรณีปิดเองก่อนเวลาหมด)
+        clearInterval(testPopupInterval);
+    }
+
+    // สั่งให้ทำงานเมื่อเปิดเว็บขึ้นมา (เพิ่มต่อท้ายใน Event Listener เดิม หรือแยกออกมาแบบนี้ก็ได้)
+    document.addEventListener('DOMContentLoaded', function() {
+        showTestPopup();
+    });
+
+    // ฟังก์ชันเปิด Drug Ver.html
+    function openDrugHtmlModal() {
+        const htmlContent = `<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drug for Dentist - Sakon Nakhon</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* General Reset & Print Settings */
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        @page {
+            size: A4;
+            margin: 10mm;
+        }
+
+        @media print {
+            body { background-color: white; padding: 0; }
+            .page { box-shadow: none; margin: 0; page-break-after: always; width: 100%; }
+            .no-print { display: none; }
+        }
+
+        /* Page Container (A4 simulation) */
+        .page {
+            background: white;
+            width: 210mm;
+            min-height: 297mm;
+            margin: 0 auto 20px auto;
+            padding: 15mm;
+            box-sizing: border-box;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        /* Headers */
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            color: #003366;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+        h2 {
+            text-align: center;
+            font-size: 18px;
+            color: #555;
+            margin-top: 0;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #003366;
+            padding-bottom: 10px;
+        }
+        h3 {
+            background-color: #003366;
+            color: white;
+            padding: 5px 10px;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            border-radius: 4px;
+        }
+        h4 {
+            color: #003366;
+            border-bottom: 1px solid #ccc;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            font-size: 15px;
+        }
+
+        /* Layout Grid */
+        .col-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* Lists & Text */
+        ul { padding-left: 20px; margin: 5px 0; }
+        li { margin-bottom: 4px; }
+        .bold { font-weight: bold; color: #000; }
+        .red { color: #cc0000; font-weight: bold; }
+        .note { font-size: 12px; font-style: italic; color: #666; }
+        
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+            font-size: 13px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 6px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background-color: #e6f2ff;
+            color: #003366;
+            font-weight: bold;
+        }
+        
+        /* Specific Styles for GFR Graphic */
+        .gfr-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .gfr-bar {
+            display: flex;
+            width: 100%;
+            height: 40px;
+            border: 1px solid #999;
+        }
+        .stage-1-2 { background: #4CAF50; flex: 2; display: flex; align-items: center; justify-content: center; color: white; } /* >60 */
+        .stage-3 { background: #FFEB3B; flex: 1; display: flex; align-items: center; justify-content: center; color: black; } /* 30-60 */
+        .stage-4 { background: #FF9800; flex: 0.5; display: flex; align-items: center; justify-content: center; color: white; } /* 15-30 */
+        .stage-5 { background: #F44336; flex: 0.5; display: flex; align-items: center; justify-content: center; color: white; } /* <15 */
+
+        /* Utility */
+        .highlight-box {
+            border: 2px solid #003366;
+            padding: 10px;
+            border-radius: 5px;
+            background: #f9fcff;
+        }
+    </style>
 </head>
 <body>
 
-<!-- ===== POPUP แจ้งเตือน ===== -->
-<div id="testPopup" class="modal">
-  <div class="modal-content" style="max-width:600px;padding:25px;border-top:6px solid #FF9800;">
-    <span class="close" onclick="closeTestPopup()">&times;</span>
-    <h2 style="color:#E65100;margin-top:0;border-bottom:1px solid #ddd;padding-bottom:10px;text-align:center;">
-      <i class="fas fa-bullhorn"></i> ประกาศ / แจ้งเตือน
-    </h2>
-    <div style="text-align:left;margin-top:20px;font-size:1.1rem;line-height:1.6;color:#333;">
-      <div style="margin-bottom:20px;background-color:#FFF3E0;padding:10px;border-radius:8px;">
-        <strong style="color:#E65100;font-size:1.2rem;">1. สิทธิ์ประกันสังคม (ก.พ. – มี.ค.)</strong>
-        <ul style="margin:5px 0 10px 20px;">
-          <li>บริการ/ส่งเบิก : <span style="color:#2E7D32;font-weight:bold;">ตามปกติ</span></li>
-          <li>รักษา/ผ่าตัด/วิสัญญี : <span style="color:#C62828;font-weight:bold;">ยังไม่เบิกได้</span></li>
-        </ul>
-        <div style="font-size:.95rem;color:#555;border-top:1px dashed #FFB74D;padding-top:5px;">
-          <i class="fas fa-info-circle"></i> รอยืนยันจาก สปส. — ดูรายละเอียดใน <u>ระบบ SSO</u>
+    <div class="page" id="page1">
+        <h1>Commonly Used Drugs</h1>
+        <h2>Dental Team Sakon Nakhon</h2>
+
+        <div class="col-2">
+            <div>
+                <h3>PAIN KILLER</h3>
+                <ul>
+                    <li><span class="bold">Paracetamol (325, 500)</span>: 1-2 tab po prn q 4-6 hr</li>
+                    <li><span class="bold">Paracetamol syrup (120mg/5ml)</span>: 10kg/1tsp prn, q4-6 hr</li>
+                    <li><span class="bold">Ibuprofen (200, 400)</span>: 1x3 po pc</li>
+                    <li><span class="bold">Ibuprofen syrup (100mg/5ml)</span>: 10kg/1tsp tid pc</li>
+                    <li><span class="bold">Diclofenac (25, 50, 1 mkdose)</span>: 1-2 po tid pc</li>
+                    <li><span class="bold">Naproxen (250, 5 mkdose)</span>: 1x2 po pc</li>
+                    <li><span class="bold">Celecoxib (200, 400)</span>: 1x1 po pc</li>
+                    <li><span class="bold">Tramadol (50, max 400mkday)</span>: 1 cap po prn q 6-8 hr</li>
+                    <li><span class="bold">Morphine syrup (2mg/5ml)</span> (0.1-0.2mg/kg IV dose)<br>
+                        <span class="note">*Oral = dose IV x 3 Syr.</span></li>
+                </ul>
+
+                <h3>ANTIBIOTIC</h3>
+                <ul>
+                    <li><span class="bold">Amoxycillin (500 mg/cap)</span>: 1x3 po pc
+                        <br>Ped: 20-40 MKD ÷ q 8 h (250 mg/5ml)
+                        <br>10kg/1tsp (125mg/5ml), 10kg/0.5tsp (250mg/5ml)</li>
+                    <li><span class="bold">Augmentin (1g [875/125])</span>: 1x2 po pc
+                        <br>Ped: (20-40 mg of amoxy/kg/day) [Ranclav Syr (22.8mg/5ml) bid]
+                        <br>1 tsp/ 10 kg (156/5ml), 0.5 tsp/ 10 kg (457mg/5ml)</li>
+                    <li><span class="bold">Augmentin (625mg)</span>: 1x2 + Amoxycillin (500) 1x2 po pc</li>
+                    <li><span class="bold">Clindamycin (150/cap)</span>: 2x3 po pc
+                        <br>Ped: 8-16 MKD PO qid (20mg/ml)</li>
+                    <li><span class="bold">Metronidazole (200mg/tab)</span>: 2x3 po pc
+                        <br>Ped: 30-40 MKD q 6-8h (100mg/5ml)</li>
+                    <li><span class="bold">Dicloxacillin (250, 500 mg/cap)</span>: 1x4 po ac hs
+                        <br>Ped: 20-25 MKD po qid ac</li>
+                    <li><span class="bold">Cephalexin/Keflex (500)</span>: 1x4 po ac, hs
+                        <br>Ped: 25-50 MKD (125mg/5ml) po qid</li>
+                    <li><span class="bold">Azithromycin (250)</span>: 2x1 po pc</li>
+                    <li><span class="bold">Clarithromycin (500)</span>: 1x2 / (250) 2x2</li>
+                    <li><span class="bold">Cefspan/cefixime (100mg/cap)</span>: 2x2 po pc</li>
+                    <li><span class="bold">Cefdinir/omicef (150mg/cap)</span>: 1x2 / (100mg/cap) 2x2 po pc</li>
+                </ul>
+
+                <h3>Topical Steroid</h3>
+                <ul>
+                    <li>0.1% Triamcinolone acetonide (Kenalog®)</li>
+                    <li>0.1% Fluocinolone acetonide</li>
+                    <li><span class="bold">Sig.</span> Apply at affected area tid or qid</li>
+                </ul>
+            </div>
+
+            <div>
+                <h3>Pain (TN, TMD, Neuropathic pain)</h3>
+                <ul>
+                    <li><span class="bold">Norgesic [para+orphen] (30)</span>: 1x3 po pc</li>
+                    <li><span class="bold">Mydocalm [tolperisone] (50)</span>: 1x3 po pc</li>
+                    <li><span class="bold">Carbamazepine (Tregetal®) (200mg)</span> [200-400 mg/day]
+                        <br><span class="bold">Sig.</span> 3 วันแรก 1/2x2 po pc then 1x2 po pc</li>
+                    <li><span class="bold">Oxcarbazepine (Trileptal®)</span> 300 or 600 mg/tab
+                        <br><span class="bold">Sig.</span> เริ่มดันให้ทีละ 300 mg. po bid pc</li>
+                    <li><span class="bold">Gabapentin 300 mg/tab</span>
+                        <br>Initial dose: 300 mg po daily, 300 mg po bid on day two, then 300 mg tid on third day</li>
+                    <li><span class="bold">Gabapentin (400)</span>: 1x1 hs</li>
+                    <li><span class="bold">Pregabalin (25)</span>: 1x1 hs</li>
+                    <li><span class="bold">Vit. B1,6,12</span>: 1x1 po pc</li>
+                    <li><span class="bold">Amitriptyline (10 or 25 mg/tab)</span>: 1 tab po hs</li>
+                    <li><span class="bold">Methylcobalamin [Vit B12] (500 mcg)</span>: 1x3 po pc</li>
+                </ul>
+
+                <h3>ANTIFUNGAL / ANTIVIRAL / ANTIPARASITE</h3>
+                <h4>Antifungal</h4>
+                <ul>
+                    <li><span class="bold">Nystatin/Mycostatin suspension</span> 100,000 unit/ml x 1 wk
+                        <br><span class="bold">Sig.</span> Swish with 1 tsp (5ml) for 2 min. qid then split out/กลืน</li>
+                    <li><span class="bold">2% Miconazole gel (Daktarin®)</span>
+                        <br><span class="bold">Sig.</span> Apply thin coat to inner surface of denture after each meal for 14 days</li>
+                    <li><span class="bold">Ketoconazole tablet (200mg/tab)</span>: 1 tab po qid with meal</li>
+                    <li><span class="bold">Fluconazole (100 mg/tab)</span>: 1-2 tab po od for 5 days</li>
+                </ul>
+                <h4>Antiviral</h4>
+                <ul>
+                    <li><span class="bold">5% Acyclovir cream (Zovirax®)</span>
+                        <br><span class="bold">Sig.</span> Apply at affect area 5 times per day for 5 days</li>
+                    <li><span class="bold">Acyclovir (200,400,800)</span>
+                        <br>4000 mg/day = (800) 1x5 for 7 day (Herpes Zoster)
+                        <br>1000 mg/day = (200) 1x5 for 5 day (Herpes simplex)</li>
+                </ul>
+                <h4>Antiparasite</h4>
+                <ul>
+                    <li><span class="bold">Albendazole (200mg)</span> (Gnathostomiasis)
+                        <br>1x2 po pc 3 week</li>
+                </ul>
+
+                <h3>MISCELLANEOUS...</h3>
+                <ul>
+                    <li><span class="bold">Tranexamic acid</span> 250mg 2 capsule + Sterile water
+                        <br>Or Tranexamic acid 1 amp + sterile water 10 ml
+                        <br><span class="bold">Sig.</span> อมกลั้ว 5 min q 6-8 h</li>
+                    <li><span class="bold">Mouthwash:</span> 0.12% Chlorhexidine gluconate
+                        <br><span class="bold">Sig.</span> use as mouth rinse bid</li>
+                    <li><span class="bold">Doxycycline 100mg or Tetracycline 250 mg/cap</span>
+                        <br><span class="bold">Sig.</span> Dissolve 1 cap in 15 ml of water, rinse tid pc</li>
+                    <li><span class="bold">2% Xylocaine viscous</span> (Spray 10%)
+                        <br><span class="bold">Sig.</span> Apply or spray in mouth before meal</li>
+                    <li><span class="bold">Kamistad N Gel</span>
+                        <br><span class="bold">Sig.</span> Apply at affect area before meal</li>
+                </ul>
+            </div>
         </div>
-      </div>
-      <div style="background-color:#E3F2FD;padding:10px;border-radius:8px;">
-        <strong style="color:#1565C0;font-size:1.2rem;">2. อัปเดตระบบรายงานผล KPI</strong>
-        <ul style="margin:5px 0 10px 20px;">
-          <li>ตรวจ/รายงาน/บันทึก : <span style="color:#2E7D32;font-weight:bold;">ตามปกติ</span></li>
-          <li>export/ส่ง : <span style="color:#C62828;font-weight:bold;">ยังไม่พร้อม</span></li>
-        </ul>
-        <div style="font-size:.95rem;color:#555;border-top:1px dashed #64B5F6;padding-top:5px;">
-          <i class="fas fa-info-circle"></i> รอ HDC อัปเดตระบบ — ดูรายละเอียดใน <u>HDC SNK</u>
+    </div>
+
+    <div class="page" id="page2">
+        <h1>Antibiotics Prophylaxis</h1>
+        <h2>For Infective Endocarditis</h2>
+
+        <div class="col-2">
+            <div>
+                <h3>AP Suggested (Conditions)</h3>
+                <ul>
+                    <li>Prosthetic cardiac valve or material</li>
+                    <li>Presence of cardiac prosthetic valve</li>
+                    <li>Transcatheter implantation of prosthetic valves</li>
+                    <li>Cardiac valve repair with devices (annuloplasty rings/clips)</li>
+                    <li>Left ventricular assist devices or implantable heart</li>
+                    <li>Previous, relapse, or recurrent Infective Endocarditis (IE)</li>
+                    <li><strong>CHD:</strong>
+                        <ul>
+                            <li>Unrepaired cyanotic CHD (including palliative shunts/conduits)</li>
+                            <li>Completely repaired CHD with prosthetic material/device (surgery or transcatheter) during first 6 mo</li>
+                            <li>Repaired CHD with residual defects at/adjacent to prosthetic patch/device</li>
+                        </ul>
+                    </li>
+                    <li>Surgical or transcatheter pulmonary artery valve/conduit placement (e.g. Melody valve, Contegra conduit)</li>
+                    <li>Cardiac transplant recipients who develop cardiac valvulopathy</li>
+                </ul>
+
+                <h3>AP Suggested (Procedures)</h3>
+                <ul>
+                    <li>All dental procedures that involve manipulation of gingival tissue or the periapical region of teeth or perforation of the oral mucosa.</li>
+                </ul>
+            </div>
+            <div>
+                <h3>AP Not Suggested (Conditions)</h3>
+                <ul>
+                    <li>Implantable electronic devices (pacemaker etc.)</li>
+                    <li>Septal defect closure devices (when complete closure achieved)</li>
+                    <li>Peripheral vascular grafts and patches (inc. hemodialysis)</li>
+                    <li>Coronary artery stents or other vascular stents</li>
+                    <li>CNS ventriculoatrial shunts</li>
+                    <li>Vena cava filters</li>
+                    <li>Pledgets</li>
+                </ul>
+
+                <h3>AP Not Suggested (Procedures)</h3>
+                <ul>
+                    <li>Anesthetic injections through noninfected tissue</li>
+                    <li>Taking dental radiographs</li>
+                    <li>Placement of removable prosthodontic or orthodontic appliances</li>
+                    <li>Adjustment of orthodontic appliances</li>
+                    <li>Placement of orthodontic brackets</li>
+                    <li>Shedding of primary teeth</li>
+                    <li>Bleeding from trauma to the lips or oral mucosa</li>
+                </ul>
+            </div>
         </div>
-      </div>
+
+        <h3>Antibiotic Regimens (Single Dose 30-60 Min Before)</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Situation</th>
+                    <th>Agent</th>
+                    <th>Adults</th>
+                    <th>Children</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Oral</td>
+                    <td>Amoxicillin</td>
+                    <td>2 g</td>
+                    <td>50 mg/kg</td>
+                </tr>
+                <tr>
+                    <td>Unable to take oral</td>
+                    <td>Ampicillin OR<br>Cefazolin or Ceftriaxone</td>
+                    <td>2 g IM or IV<br>1 g IM or IV</td>
+                    <td>50 mg/kg IM/IV<br>50 mg/kg IM/IV</td>
+                </tr>
+                <tr>
+                    <td>Allergic to penicillin (Oral)</td>
+                    <td>Cephalexin* OR<br>Azithromycin/Clarithromycin OR<br>Doxycycline</td>
+                    <td>2 g<br>500 mg<br>100 mg</td>
+                    <td>50 mg/kg<br>15 mg/kg<br>&lt;45kg: 2.2mg/kg<br>&gt;45kg: 100mg</td>
+                </tr>
+                <tr>
+                    <td>Allergic to penicillin (Unable to take oral)</td>
+                    <td>Cefazolin or Ceftriaxone</td>
+                    <td>1 g IM or IV</td>
+                    <td>50 mg/kg IM or IV</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="note">
+            <p><span class="red">NOTE:</span> <strong>Clindamycin is no longer recommended</strong> for antibiotic prophylaxis for a dental procedure.</p>
+            <p>* Or other first/second-generation oral cephalosporin. Cephalosporins should not be used in an individual with a history of anaphylaxis, angioedema, or urticaria with penicillin or ampicillin.</p>
+        </div>
     </div>
-    <div style="margin-top:20px;text-align:right;color:#888;font-size:.9rem;">
-      ปิดอัตโนมัติใน <span id="popupCountDown" style="font-weight:bold;color:#333;font-size:1.2rem;">15</span> วินาที
+
+    <div class="page" id="page3">
+        <h1>Drug for Chronic Kidney Disease & Pregnancy</h1>
+
+        <div class="highlight-box">
+            <h3 style="text-align: center; margin-top: 0;">Stages of Chronic Kidney Disease (GFR)</h3>
+            <div class="gfr-container">
+                <div style="width: 80%;">
+                    <div style="display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 5px;">
+                        <span>Normal</span>
+                        <span>Kidney Failure</span>
+                    </div>
+                    <div class="gfr-bar">
+                        <div class="stage-1-2">Stage 1-2 (Normal)<br>>60</div>
+                        <div class="stage-3">Stage 3<br>30-60</div>
+                        <div class="stage-4">Stage 4<br>15-30</div>
+                        <div class="stage-5">Stage 5<br><15</div>
+                    </div>
+                    <div style="text-align: right; font-size: 12px; margin-top: 5px;">*GFR Unit: ml/min/1.73 m²</div>
+                </div>
+            </div>
+            
+            <div class="col-2">
+                <div>
+                    <strong>Analgesic Drug</strong>
+                    <ul>
+                        <li><span class="bold">Paracetamol:</span> No adjustment</li>
+                        <li><span class="bold">Aspirin:</span> 50% dose in Stage 2-4, <span class="red">Avoid in Stage 5</span></li>
+                        <li><span class="bold">Ibuprofen:</span> <span class="red">Avoid in Stage 5</span></li>
+                        <li><span class="bold">Celecoxib:</span> <span class="red">Avoid in Stage ≥ 4</span></li>
+                        <li><span class="bold">Tramadol:</span> increase interval to q12h in stage 3, Decrease dose 50% and q12h in stage 5</li>
+                    </ul>
+                    <strong>Local Anesthesia</strong>
+                    <ul><li>No adjustment dose</li></ul>
+                </div>
+                <div>
+                    <strong>Antimicrobial Drug</strong>
+                    <ul>
+                        <li><span class="bold">Amoxicillin:</span> q8-12h in stage 3, q12-24 in stage 5</li>
+                        <li><span class="bold">Clindamycin / Erythromycin / Metronidazole:</span> No adjustment</li>
+                        <li><span class="bold">Cephalexin/Keflex:</span> q6-8h in stage 3, q12-24 in stage 5</li>
+                        <li><span class="bold">Azithromycin:</span> <span class="red">Avoid in stage 5</span></li>
+                        <li><span class="bold">Acyclovir:</span> q8h in stage 3, q12h in stage 5</li>
+                        <li><span class="bold">Fluconazole:</span> 50% dose in stage 3, 25% dose in stage 5</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <h3>Drug for Pregnancy & Breastfeeding</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Medication</th>
+                    <th>FDA Cat.</th>
+                    <th>Safe During Pregnancy?</th>
+                    <th>Safe Breastfeeding?</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td colspan="4" style="background-color: #f0f0f0; font-weight: bold;">Analgesics and Anti-inflammatories</td></tr>
+                <tr><td>Acetaminophen</td><td>B</td><td>Yes</td><td>Yes</td></tr>
+                <tr><td>Aspirin</td><td>C/D</td><td>Avoid</td><td>Avoid</td></tr>
+                <tr><td>Codeine</td><td>C</td><td>Use with caution</td><td>No</td></tr>
+                <tr><td>Glucocorticoids</td><td>C</td><td>Avoid</td><td>Yes</td></tr>
+                <tr><td>Hydrocodone</td><td>C</td><td>Use with caution</td><td>Use with caution</td></tr>
+                <tr><td>Ibuprofen</td><td>C/D</td><td>Yes (Avoid 3rd trimester)</td><td>Yes</td></tr>
+                
+                <tr><td colspan="4" style="background-color: #f0f0f0; font-weight: bold;">Antibiotics / Antifungals</td></tr>
+                <tr><td>Amoxicillin</td><td>B</td><td>Yes</td><td>Yes</td></tr>
+                <tr><td>Azithromycin / Cephalexin</td><td>B</td><td>Yes</td><td>Yes</td></tr>
+                <tr><td>Chlorhexidine / Clotrimazole (Topical)</td><td>B</td><td>Yes</td><td>Yes</td></tr>
+                <tr><td>Clindamycin / Penicillin</td><td>B</td><td>Yes</td><td>Yes</td></tr>
+                <tr><td>Metronidazole</td><td>B</td><td>Yes</td><td>Yes (may give milk unpleasant taste)</td></tr>
+                <tr><td>Erythromycin</td><td>B</td><td>Yes</td><td>Use with caution</td></tr>
+                <tr><td>Clarithromycin</td><td>C</td><td>Use with caution</td><td>Use with caution</td></tr>
+                <tr><td>Fluconazole</td><td>C/D</td><td>Yes (Single dose)</td><td>Yes</td></tr>
+                <tr><td>Nystatin</td><td>C</td><td>Yes</td><td>Yes</td></tr>
+                <tr><td>Doxycycline</td><td>D</td><td>Avoid</td><td>Avoid</td></tr>
+
+                <tr><td colspan="4" style="background-color: #f0f0f0; font-weight: bold;">Local Anesthetics</td></tr>
+                <tr><td>Lidocaine / Prilocaine</td><td>B</td><td>Yes</td><td>Yes</td></tr>
+                <tr><td>Articaine</td><td>C</td><td>Use with caution</td><td>Use with caution</td></tr>
+                <tr><td>Bupivacaine</td><td>C</td><td>Use with caution</td><td>Yes</td></tr>
+                <tr><td>Mepivacaine</td><td>C</td><td>Use with caution</td><td>Yes</td></tr>
+            </tbody>
+        </table>
+
+        <div class="col-2">
+            <div>
+                <h3>DRUG FOR ORN (Prevention & Misc)</h3>
+                <ul>
+                    <li><span class="bold">PENTOXIFILLINE (400mg)</span> #112 tab (800mg/day x 8 wks)<br>Sig. 1x2 po pc</li>
+                    <li><span class="bold">Vitamin E (1000 IU)</span> #56 cap<br>Sig. 1x1 po pc (1000mg/day x 8 wks)</li>
+                    <li><strong>Protocol:</strong> PENTO 1 week > Tooth extraction > PENTO 8 week</li>
+                </ul>
+            </div>
+            <div>
+                <h3>Anti-histamine</h3>
+                <ul>
+                    <li><span class="bold">Chlorpheniramine:</span> 4 mg PO q4-6h (max 24 mg/day)</li>
+                    <li><span class="bold">Diphenhydramine:</span> 25-50 mg q6-8h (max 300 mg/day)</li>
+                    <li><span class="bold">Loratadine:</span> 10 mg PO OD (max 10 mg/day)</li>
+                    <li><span class="bold">Cetirizine:</span> 5-10 mg PO OD (max 10 mg/day)</li>
+                </ul>
+            </div>
+        </div>
     </div>
-    <button class="button" onclick="closeTestPopup()" style="justify-content:center;background-color:#555;color:white;border:none;margin-top:10px;">
-      <i class="fas fa-check"></i> รับทราบ
-    </button>
-  </div>
-</div>
 
-<!-- ===== MODAL: กราฟรายได้ ===== -->
-<div id="incomeModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <div class="modal-header">กราฟรายได้รายเดือน (มีสิทธิ์)</div>
-    <canvas id="incomeChart"></canvas>
-  </div>
-</div>
+</body>
+</html>`;
 
-<!-- ===== MODAL: PDF Viewer ===== -->
-<div id="pdfModal" class="modal">
-  <div class="modal-pdf-content">
-    <div class="pdf-toolbar">
-      <div style="font-weight:bold;font-size:1.2rem;" id="pdfModalTitle">เอกสาร</div>
-      <div class="pdf-actions">
-        <button class="btn-action btn-print"     id="btnPrintPdf"><i class="fas fa-print"></i> พิมพ์ / เปิด</button>
-        <button class="btn-action btn-download"  id="btnDownloadPdf"><i class="fas fa-download"></i> ดาวน์โหลด</button>
-        <button class="btn-action btn-close-red" onclick="closePdfModal()"><i class="fas fa-times"></i> ปิด</button>
-      </div>
-    </div>
-    <div id="modalLoader" class="loading-overlay" style="display:none;">
-      <div class="spinner"></div>
-      <div class="loading-text">กำลังโหลด...</div>
-    </div>
-    <iframe id="pdfFrame" class="pdf-frame" src=""></iframe>
-  </div>
-</div>
-
-<!-- ===== NAVBAR ===== -->
-<nav class="top-navbar">
-  <div class="menu-income-box" id="income-button">
-    <div class="box-title"><i class="fas fa-hand-holding-dollar"></i> ประกันสังคม</div>
-    <div class="box-value"><span id="social-sum"><i class="fas fa-spinner fa-spin"></i></span><span class="box-unit">บาท</span></div>
-  </div>
-  <div class="menu-income-box" style="background:linear-gradient(135deg,#4CAF50 0%,#8BC34A 100%);cursor:default;">
-    <div class="box-title"><i class="fas fa-tooth"></i> ฟลูออไรด์เด็ก</div>
-    <div class="box-value"><span id="fluoride-sum"><i class="fas fa-spinner fa-spin"></i></span><span class="box-unit">บาท</span></div>
-  </div>
-  <div class="menu-income-box" style="background:linear-gradient(135deg,#E91E63 0%,#F06292 100%);cursor:default;">
-    <div class="box-title"><i class="fas fa-baby-carriage"></i> ANC</div>
-    <div class="box-value"><span id="anc-sum"><i class="fas fa-spinner fa-spin"></i></span><span class="box-unit">บาท</span></div>
-  </div>
-  <div class="menu-income-box" style="background:linear-gradient(135deg,#2196F3 0%,#64B5F6 100%);cursor:default;">
-    <div class="box-title"><i class="fas fa-smile"></i> ฟันปลอม</div>
-    <div class="box-value"><span id="denture-sum"><i class="fas fa-spinner fa-spin"></i></span><span class="box-unit">บาท</span></div>
-  </div>
-  <div class="menu-income-box" style="background:linear-gradient(135deg,#673AB7 0%,#9575CD 100%);cursor:default;border:2px solid #FFEB3B;">
-    <div class="box-title"><i class="fas fa-coins"></i> รวมทั้งหมด</div>
-    <div class="box-value"><span id="total-sum" style="font-size:1.2rem;color:#FFEB3B;"><i class="fas fa-spinner fa-spin"></i></span><span class="box-unit">บาท</span></div>
-  </div>
-</nav>
-
-<!-- ===== MAIN CONTAINER ===== -->
-<div class="container">
-
-  <!-- คอลัมน์ 1: งานประกันสังคม -->
-  <div class="column">
-    <h2>งานประกันสังคม</h2>
-    <button class="button button-student" onclick="openLink('https://script.google.com/macros/s/AKfycbzMFNf1woDJCMUz8Y5hNL3Wjy-0C-pH7NgVut1dlbA5xFv5aVHxZeycxDj_ebHroMm3Ow/exec')"><i class="fas fa-search-location"></i> ค้นหา</button>
-    <button class="button" onclick="openLink('https://script.google.com/macros/s/AKfycbwEGIBR1xVthpV3gOf5JJV7QwWx0B3noBXCG60p6Gt41kiMEI6c45MCZxst_Tn7k-dlpw/exec')"><i class="fas fa-notes-medical"></i> บันทึกบริการ</button>
-    <button class="button" onclick="openLink('https://docs.google.com/spreadsheets/d/1JRG5cX-zeFj2ewu8npe_WQ7gGeVFduRW_gIlX_Umt1k/edit?gid=384117056#gid=384117056')"><i class="fas fa-database"></i> ฐานข้อมูลผู้ป่วย</button>
-    <button class="button" onclick="openLink('https://docs.google.com/spreadsheets/d/1RfiSQeiV3Kqu0v3NzrCKp4rT9Rz9PuMbQm7Db2cAKNQ/edit?gid=1913927299#gid=1913927299')"><i class="fas fa-chart-bar"></i> DMFT</button>
-    <button class="button" onclick="openLink('https://docs.google.com/spreadsheets/d/1n4xfSuDkUIx2kwU4EHAF5CN0jex9OMajWyNA8dwOcTo/edit?usp=sharing')"><i class="fas fa-user-times"></i> ผู้ป่วยนัดไม่มา</button>
-    <button class="button" onclick="openLink('https://edenth.sso.go.th/edt/login')"><i class="fas fa-hand-holding-usd"></i> เบิก SSO (เดิม)</button>
-    <button class="button" onclick="openLink('https://mms.sso.go.th/login/')"><span class="new-badge">NEW!!!</span><i class="fas fa-hand-holding-usd"></i> เบิก SSO (ใหม่)</button>
-    <h2>เอกสาร</h2>
-    <button class="button" onclick="openPdfModal('https://drive.google.com/file/d/1SJpaxXhvNvtiXg24SH75zp4pGwbPyICQ/view?usp=drive_link','แนวทางการบันทึก')"><i class="fas fa-file-invoice-dollar"></i> แนวทางการบันทึก</button>
-    <button class="button" onclick="openPdfModal('https://drive.google.com/file/d/1fvtdKjazuMFbh9swwTEM94nOwUmioLWl/view?usp=drive_link','แบบฟอร์ม/สัญญา')"><i class="fas fa-file-pen"></i> แบบฟอร์ม/สัญญา</button>
-    <button class="button" onclick="openPdfModal('https://drive.google.com/file/d/14Pb_Q9nveHFG0tmw7txsBlRfj9EnDLpA/view?usp=drive_link','คำสั่งแต่งตั้ง')"><i class="fas fa-file-pen"></i> คำสั่งแต่งตั้ง</button>
-    <button class="button" onclick="openPdfModal('https://drive.google.com/file/d/1RvKmMWD-ozWSfWaY8pivNNPqnX_DYr0c/view?usp=drive_link','แบบประเมิน')"><i class="fas fa-file-pen"></i> แบบประเมิน</button>
-    <button class="button" onclick="openPdfModal('https://drive.google.com/file/d/1v7cri5eq-bGXWCXZgNIEDI412FjaJfmz/view?usp=drive_link','แบบรายงานผล')"><i class="fas fa-file-pen"></i> แบบรายงานผล</button>
-    <button class="button" onclick="openPdfModal('https://drive.google.com/file/d/13pJqnFhHw4VGCk-xMJLWu_5ccywSclNN/view?usp=drive_link','คู่มือ')"><i class="fas fa-file-pen"></i> คู่มือ</button>
-    <button class="button" onclick="openPdfModal('https://drive.google.com/file/d/1oVLKfb0msIXTYr1hohR-h5m-CuDkLgi0/view?usp=drive_link','แนวทางปฏิบัติ')"><i class="fas fa-file-pen"></i> แนวทางปฏิบัติ</button>
-  </div>
-
-  <!-- คอลัมน์ 2: ระบบต่างๆ -->
-  <div class="column">
-    <h2>ระบบต่างๆ</h2>
-    <button class="button button-diabetes" onclick="openLink('https://docs.google.com/spreadsheets/d/1IWqPJ_vhsD2EJKLu8wD4D8miRCaRdSDQsHwgS1vzTYU/edit?gid=974116719#gid=974116719')"><i class="fas fa-tint"></i> ฐานข้อมูล DM+HT</button>
-    <div class="nested-column">
-      <h2>รายงาน / ระบบสุขภาพ</h2>
-      <button class="button" onclick="openLink('https://hdc.moph.go.th/snk/public/main')"><i class="fas fa-tachometer-alt"></i> HDC</button>
-      <button class="button" onclick="openLink('https://mishos.nhso.go.th/mis_hos/#/Pp/Ppfee')"><i class="fas fa-money-check-alt"></i> NHSO เบิกงาน ส.ป.ส.ช.</button>
-      <h2>ระบบภายใน รพ.</h2>
-      <button class="button button-student" onclick="openLink('http://192.168.146.188:84/#/login/page')"><i class="fas fa-file-signature"></i> IPD PAPERLESS</button>
-      <button class="button" onclick="openLink('https://charoensin.moph.go.th/?page_id=15886')"><i class="fas fa-globe-americas"></i> Website รพ.เจริญศิลป์</button>
-      <button class="button" onclick="openLink('http://192.168.136.18:83/content_patient_claim.aspx')"><i class="fas fa-lock"></i> NeoQ จองคิว</button>
-      <button class="button" onclick="openLink('http://192.168.1.251/vopd/web/index.php?r=site%2Flogin')"><i class="fas fa-folder-open"></i> ห้องบัตรผู้ป่วย</button>
-      <button class="button" onclick="openLink('https://gecc-skko.moph.go.th/officedd/co/main/')"><i class="fas fa-user-shield"></i> SKKO-MOPH</button>
-    </div>
-    <button class="button" onclick="openLink('https://mohpromtstation.moph.go.th/login')"><i class="fas fa-hospital-user"></i> MOH Prompt</button>
-    <button class="button" onclick="openLink('https://atcare.at-prevent.com/login')"><i class="fas fa-tools"></i> บริการ AT-Care</button>
-  </div>
-
-  <!-- คอลัมน์ 3: งานยา -->
-  <div class="column">
-    <h2>งานยา</h2>
-    <button class="button" onclick="openLink('https://script.google.com/macros/s/AKfycbx0k9idHBelDCdF74ZPDJhOy2aNuVhQoITeJGvZbIXI4nA3sDdVcHysLI3hruhfbbek/exec')"><i class="fas fa-calculator"></i> คำนวณ Dose ยา</button>
-    <button class="button" onclick="openLink('https://docs.google.com/spreadsheets/d/1STEZUmGuICgIMXqAohnObsO97S8BIPGZCVyIICCZVB0/edit?gid=2013524015#gid=2013524015')"><i class="fas fa-warehouse"></i> สต็อกยา (ห้อง)</button>
-    <button class="button" onclick="openLink('https://docs.google.com/spreadsheets/d/14kF2CFVbHpnyXjo8i0Z8RmlIQYH3el4fmsiV1c9VrdM/edit?gid=0#gid=0')"><i class="fas fa-money-bill-transfer"></i> เบิกยา (คลังยาหลัก)</button>
-    <button class="button" onclick="openLink('https://docs.google.com/spreadsheets/d/1N_6C9fGr67hr1sEP9rkfipw5Yg8RssEKjZDoJg5iRBg/edit?gid=0#gid=0')"><i class="fas fa-receipt"></i> ค่าใช้จ่าย (คลังยาหลัก)</button>
-    <button class="button" onclick="openLink('https://script.google.com/macros/s/AKfycbwuMwILxrlk9OJLJK0Uezn1_zrK5AOwVyVwLlQHIzClERavZGUIFAarwVNgY63Lz6U/exec')"><i class="fas fa-calendar-check"></i> นัดผู้ป่วยทันตกรรม</button>
-    <button class="button" onclick="openLink('https://script.google.com/macros/s/AKfycbysSCMoqh8k8KGztYYG-YT43Rau_elBbtIviTqYsx8f_NQU6E-KILofjVikhchJUr30/exec')"><i class="fas fa-tools"></i> ซ่อมบำรุง</button>
-    <button class="button" onclick="openLink('https://docs.google.com/spreadsheets/d/1iVXM9Z7bCnL6L5eWbREfR9CSSanfQPNZn_Ts8sferoI/edit?gid=837807594#gid=837807594')"><i class="fas fa-clipboard-list"></i> ตัวชี้วัด ม. 11</button>
-    <button class="button button-risk" onclick="openLink('https://script.google.com/macros/s/AKfycbxu6FVMhFphXZXoNqh4OKChyvT10qtzGfbBc3qix7Kkfw7CzPGspSQWRr8Pblw-Tc5x/exec')"><i class="fas fa-triangle-exclamation"></i> ผู้ป่วยกลุ่มเสี่ยง</button>
-  </div>
-
-  <!-- คอลัมน์ 4: องค์ความรู้ -->
-  <div class="column">
-    <h2>องค์ความรู้</h2>
-    <button class="button blink-button button-knowledge" onclick="openPdfModal('https://drive.google.com/file/d/1y8bDNyZkjXiHjgJdOb7cL5NeiWJEsvka/view?usp=drive_link','คู่มือการรักษาทันตกรรม')"><i class="fas fa-book-open"></i> คู่มือการรักษา</button>
-    <button class="button blink-button button-knowledge" onclick="openDrugHtmlModal()"><i class="fas fa-file-medical"></i> ยาทันตกรรม Ver.html</button>
-    <button class="button blink-button button-knowledge" onclick="openPdfModal('https://drive.google.com/file/d/1tt6rLS2NDkaQHZjszv7t1H5hmrfQmE48/view?usp=drive_link','Dental Safety Goal 2015')"><i class="fas fa-shield-halved"></i> Dental Safety Goal 2015</button>
-    <button class="button blink-button button-knowledge" onclick="openTranexamicModal()"><i class="fas fa-capsules"></i> การใช้ Tranexamic acid</button>
-    <button class="button blink-button button-knowledge" onclick="openWisdomToothModal()"><i class="fas fa-procedures"></i> แนวทางถอนฟันคุด</button>
-    <button class="button blink-button button-knowledge" onclick="openRootCanalModal()"><i class="fas fa-tooth"></i> แนวทางรักษาคลองราก</button>
-    <button class="button blink-button button-knowledge" onclick="openDentureModal()"><i class="fas fa-smile"></i> แนวทางใส่ฟันปลอม</button>
-    <button class="button" style="background-color:#FFC107;color:#000;border-color:#FFB300;" onclick="openNotesModal()"><i class="fas fa-sticky-note"></i> Note ต่างๆ ในแต่ละปี</button>
-    <button class="button blink-button button-knowledge" onclick="openAvulsionModal()"><i class="fas fa-tooth"></i> Tooth Avulsion management</button>
-  </div>
-
-  <!-- Full: ปฏิทิน -->
-  <div class="column column-full">
-    <div class="calendar-card">
-      <div class="calendar-header"><h2 class="calendar-title"><i class="fa-solid fa-calendar-days" style="margin-right:8px"></i> ปฏิทินทันตกรรม</h2></div>
-      <iframe class="calendar-frame"
-        src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=Asia%2FBangkok&showPrint=0&title=%E0%B8%97%E0%B8%B1%E0%B8%99%E0%B8%95%E0%B8%81%E0%B8%A3%E0%B8%A3%E0%B8%A1&src=ZjM5OGE5Yzk0MTEyZDRkOTE2Mzg5ZTY5OGRkMTNiNWM2NjMzNWNhZjAzZmI5ODk3ODkwNThlOWVjZjAzZjQ2ZkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=M2E4NDcyMGM3YzQyMTE4ZjFjNDg0NTYxNTQ5MzVjYzhkNjVhMTM1MDhiMGY3YjhkNmYzNThiMDRjOGY3MzE2MUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23ff0000&color=%230dff00"
-        frameborder="0" scrolling="no" loading="lazy" referrerpolicy="no-referrer"></iframe>
-    </div>
-  </div>
-
-  <!-- Full: Looker Studio -->
-  <div class="column column-full">
-    <div class="calendar-card">
-      <div class="calendar-header"><h2 class="calendar-title"><i class="fa-solid fa-chart-line" style="margin-right:8px;"></i> Dashboard Looker Studio</h2></div>
-      <iframe src="https://lookerstudio.google.com/embed/reporting/86c83018-26eb-4b4f-8368-b05692f208da/page/w9n5C"
-        class="calendar-frame" frameborder="0" style="border:0" allowfullscreen
-        sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
-    </div>
-  </div>
-
-  <!-- Full: KPI Table -->
-  <div class="column column-full">
-    <div class="calendar-card">
-      <div class="calendar-header">
-        <h2 class="calendar-title" style="color:#008B4B;"><i class="fas fa-table" style="margin-right:8px;"></i> ผลงานทันตกรรม (KPI 22, 25 เด็ก 0-5 ปี)</h2>
-      </div>
-      <div id="table-output-combined" style="overflow-x:auto;padding:10px;">
-        <div class="moph-muted" style="text-align:center;">กำลังโหลด...</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Full: Ranking -->
-  <div class="column column-full">
-    <div class="calendar-card">
-      <div class="calendar-header">
-        <h2 class="calendar-title" style="color:#008B4B;"><i class="fas fa-trophy" style="margin-right:8px;"></i> จัดอันดับฟันผุ 0-5 ปี รายอำเภอ (จ.สกลนคร)</h2>
-      </div>
-      <div style="position:relative;height:500px;width:100%;margin-bottom:20px;"><canvas id="cavityRankingChart"></canvas></div>
-      <div id="table-output-ranking" style="overflow-x:auto;padding:10px;"><div class="moph-muted" style="text-align:center;">กำลังโหลด...</div></div>
-    </div>
-  </div>
-
-  <!-- Full: Cavity Free -->
-  <div class="column column-full">
-    <div class="calendar-card">
-      <div class="calendar-header">
-        <h2 class="calendar-title" style="color:#008B4B;"><i class="fas fa-smile-beam" style="margin-right:8px;"></i> เด็กปลอดฟันผุ 0-5 ปี รายอำเภอ (จ.สกลนคร)</h2>
-      </div>
-      <div style="position:relative;height:350px;width:100%;margin-bottom:20px;"><canvas id="cavityFreeChart"></canvas></div>
-      <div id="table-output-cavity" style="overflow-x:auto;padding:10px;"><div class="moph-muted" style="text-align:center;">กำลังโหลด...</div></div>
-    </div>
-  </div>
-
-  <div id="kpi-charts" class="column-full"></div>
-</div>
-
-<!-- ===== STICKY SIDEBAR ===== -->
-<div class="sticky-sidebar collapsed" id="sidebar-container">
-  <div class="sidebar-toggler" onclick="toggleSidebar()" title="ซ่อน/แสดงแถบเครื่องมือ">
-    <i class="fas fa-chevron-left" id="toggle-icon"></i>
-  </div>
-  <div class="sticky-button chatgpt" onclick="openLink('https://chatgpt.com/')" data-tooltip="Chat GPT">
-    <i class="fab fa-openai"></i>
-  </div>
-  <div class="sticky-button gemini" onclick="openLink('https://gemini.google.com/')" data-tooltip="Google Gemini">
-    <i class="fab fa-google"></i>
-  </div>
-</div>
-
-<!-- ===== JAVASCRIPT ===== -->
-<script>
-  // ===== CONFIG =====
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbxlkSVaMOKZt-do8hcFNj85m_7G-RlQ1VljBvnAauiPjD6yg93qL9GLGlOi-Vj9P30maQ/exec';
-
-  // ===== 1. Helpers =====
-  function openLink(url){ window.open(url,'_blank'); }
-
-  function openPdfModal(url,title){
-    var embedUrl,downloadUrl,printUrl;
-    if(url.includes('drive.google.com')&&url.includes('/d/')){
-      var m=url.match(/\/d\/(.+?)\//);
-      if(m){ var id=m[1]; embedUrl='https://drive.google.com/file/d/'+id+'/preview'; downloadUrl='https://drive.google.com/uc?export=download&id='+id; printUrl='https://drive.google.com/file/d/'+id+'/view'; }
-      else{ embedUrl=downloadUrl=printUrl=url; }
-    } else { embedUrl=downloadUrl=printUrl=url; }
-    document.getElementById('pdfModalTitle').innerText=title;
-    document.getElementById('pdfFrame').src=embedUrl;
-    document.getElementById('btnDownloadPdf').onclick=function(){ window.open(downloadUrl,'_blank'); };
-    document.getElementById('btnPrintPdf').onclick=function(){ window.open(printUrl,'_blank'); };
-    document.getElementById('pdfModal').style.display='flex';
-  }
-
-  function closePdfModal(){
-    document.getElementById('pdfModal').style.display='none';
-    document.getElementById('pdfFrame').src='';
-  }
-
-  function toggleSidebar(){
-    var s=document.getElementById('sidebar-container'), ic=document.getElementById('toggle-icon');
-    s.classList.toggle('collapsed');
-    if(s.classList.contains('collapsed')){ ic.classList.remove('fa-chevron-right'); ic.classList.add('fa-chevron-left'); }
-    else{ ic.classList.remove('fa-chevron-left'); ic.classList.add('fa-chevron-right'); }
-  }
-
-  function normalizeHospcode(code){ var s=String(code||'').trim(); while(s.length<5&&s.length>0) s='0'+s; return s; }
-
-  function createAndShowModal(title,html){
-    var old=document.getElementById('dynamicModal'); if(old) old.remove();
-    var m=document.createElement('div'); m.id='dynamicModal'; m.className='modal'; m.style.display='flex';
-    m.innerHTML='<div class="modal-content" style="max-width:900px;max-height:85vh;overflow-y:auto;padding:20px;"><span class="close" onclick="document.getElementById(\'dynamicModal\').remove()">&times;</span><div class="modal-header">'+title+'</div><div>'+html+'</div></div>';
-    document.body.appendChild(m);
-    m.onclick=function(e){ if(e.target===m) m.remove(); };
-  }
-
-  // Popup countdown
-  var _cdInterval;
-  function closeTestPopup(){ document.getElementById('testPopup').style.display='none'; clearInterval(_cdInterval); }
-
-  // ===== 2. DOMContentLoaded =====
-  document.addEventListener('DOMContentLoaded',function(){
-
-    // Show popup
-    document.getElementById('testPopup').style.display='flex';
-    var sec=15;
-    _cdInterval=setInterval(function(){
-      sec--; var el=document.getElementById('popupCountDown'); if(el) el.innerText=sec;
-      if(sec<=0) closeTestPopup();
-    },1000);
-
-    var fmt=function(v){ return(typeof v==='number')?v.toLocaleString('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2}):v; };
-
-    // 2.1 โหลดตัวเลขรายได้ — fetch แทน google.script.run
-    fetch(GAS_URL+'?fn=getDashboardStats')
-      .then(function(r){ return r.json(); })
-      .then(function(d){
-        document.getElementById('social-sum').innerText=fmt(d.social);
-        document.getElementById('fluoride-sum').innerText=fmt(d.fluoride);
-        document.getElementById('anc-sum').innerText=fmt(d.anc);
-        document.getElementById('denture-sum').innerText=fmt(d.denture);
-        document.getElementById('total-sum').innerText=fmt(d.total);
-      })
-      .catch(function(){ ['social-sum','fluoride-sum','anc-sum','denture-sum','total-sum'].forEach(function(id){ document.getElementById(id).innerText='N/A'; }); });
-
-    // 2.2 Modal กราฟรายเดือน
-    var modal=document.getElementById('incomeModal');
-    var btn=document.getElementById('income-button');
-    var span=document.querySelector('#incomeModal .close');
-    var chartCtx=document.getElementById('incomeChart').getContext('2d');
-    var myChart;
-
-    btn.onclick=function(){ modal.style.display='flex'; loadMonthlyData(); };
-    if(span) span.onclick=function(){ modal.style.display='none'; };
-    window.onclick=function(e){
-      if(e.target==modal) modal.style.display='none';
-      if(e.target==document.getElementById('pdfModal')) closePdfModal();
-    };
-
-    function loadMonthlyData(){
-      Chart.register(ChartDataLabels);
-      if(myChart) myChart.destroy();
-      fetch(GAS_URL+'?fn=getMonthlyBreakdown')
-        .then(function(r){ return r.json(); })
-        .then(function(data){
-          myChart=new Chart(chartCtx,{
-            type:'bar',
-            data:{ labels:data.map(function(i){return i.label;}), datasets:[{ label:'ยอดเบิก (บาท)', data:data.map(function(i){return i.amount;}), backgroundColor:'rgba(54,162,235,.6)', borderColor:'rgba(54,162,235,1)', borderWidth:1 }] },
-            options:{ responsive:true, layout:{padding:{top:30}}, plugins:{ legend:{display:false}, datalabels:{anchor:'end',align:'top',formatter:function(v){return v.toLocaleString();},font:{family:'Sarabun',weight:'bold',size:12},color:'#333'} }, scales:{y:{beginAtZero:true,title:{display:true,text:'จำนวนเงิน (บาท)'}}} }
-          });
-        })
-        .catch(function(e){ console.warn('getMonthlyBreakdown:',e); });
+        // เรียกใช้ฟังก์ชันเดิมเพื่อแสดง Modal (รองรับการพิมพ์)
+        createAndShowModal('Drug for Dentist - Sakon Nakhon', htmlContent);
     }
-  });
-
-  // ===== 3. KPI Table (22, 25) =====
-  (async function(){
-    const HOSP_MAP={'05574':'รพ.สต.บ้านกุดนาขาม','05575':'รพ.สต.บ้านเหล่า','05576':'รพ.สต.บ้านหนองแวง','05577':'รพ.สต.บ้านดอนสร้างไพร','05578':'รพ.สต.บ้านโคกศิลา','05579':'รพ.สต.บ้านดงสง่า','11102':'โรงพยาบาลเจริญศิลป์'};
-    const CODES=Object.keys(HOSP_MAP);
-    const outputDiv=document.getElementById('table-output-combined');
-    try{
-      const [r22,r25]=await Promise.all([fetch('https://opendata.moph.go.th/api/report_data/s_kpi_dental22/2569'),fetch('https://opendata.moph.go.th/api/report_data/s_kpi_dental25/2569')]);
-      const j22=await r22.json(), j25=await r25.json();
-      const d22=Array.isArray(j22)?j22:(j22.data||j22.result||[]);
-      const d25=Array.isArray(j25)?j25:(j25.data||j25.result||[]);
-      const agg=(raw)=>{ let m={}; CODES.forEach(c=>m[c]={A:0,B:0}); raw.forEach(item=>{ const c=normalizeHospcode(item.hospcode||item.HOSPCODE); if(m[c]){ m[c].A+=parseFloat(String(item.result||item.RESULT||0).replace(/,/g,''))||0; m[c].B+=parseFloat(String(item.target||item.TARGET||0).replace(/,/g,''))||0; } }); return m; };
-      const s22=agg(d22),s25=agg(d25);
-      let rows='',t22={A:0,B:0},t25={A:0,B:0},tS={A:0,B:0};
-      CODES.forEach(c=>{ const a=s22[c],b=s25[c],ab={A:a.A+b.A,B:a.B+b.B}; t22.A+=a.A;t22.B+=a.B;t25.A+=b.A;t25.B+=b.B;tS.A+=ab.A;tS.B+=ab.B;
-        const r22=a.B>0?((a.A/a.B)*100).toFixed(2):'0.00',r25=b.B>0?((b.A/b.B)*100).toFixed(2):'0.00',rS=ab.B>0?((ab.A/ab.B)*100).toFixed(2):'0.00';
-        rows+=`<tr><td>${c}:${HOSP_MAP[c]}</td><td>${a.B.toLocaleString()}</td><td>${a.A.toLocaleString()}</td><td style="font-weight:bold;color:${r22>=55?'#008B4B':'#d32f2f'}">${r22}</td><td style="background:#f0f8ff">${b.B.toLocaleString()}</td><td style="background:#f0f8ff">${b.A.toLocaleString()}</td><td style="background:#f0f8ff;font-weight:bold;color:${r25>=60?'#1976D2':'#d32f2f'}">${r25}</td><td style="background:#fff3e0">${ab.B.toLocaleString()}</td><td style="background:#fff3e0">${ab.A.toLocaleString()}</td><td style="background:#fff3e0;font-weight:bold;color:${rS>=60?'#E65100':'#d32f2f'}">${rS}</td></tr>`;
-      });
-      const tr22=t22.B>0?((t22.A/t22.B)*100).toFixed(2):'0.00',tr25=t25.B>0?((t25.A/t25.B)*100).toFixed(2):'0.00',trS=tS.B>0?((tS.A/tS.B)*100).toFixed(2):'0.00';
-      outputDiv.innerHTML=`<table class="custom-table"><thead><tr><th rowspan="2" style="width:20%;background:#2E7D32;">หน่วยบริการ</th><th colspan="3" class="main-header" style="background:#2E7D32;">เด็ก 0-2 ปี ฟันไม่ผุ (KPI 22)</th><th colspan="3" class="main-header" style="background:#1565C0;">เด็ก 3-5 ปี ฟันไม่ผุ (KPI 25)</th><th colspan="3" class="main-header" style="background:#EF6C00;">รวม 0-5 ปี</th></tr><tr><th style="background:#43A047;">B</th><th style="background:#43A047;">A</th><th style="background:#43A047;">%</th><th style="background:#1E88E5;">B</th><th style="background:#1E88E5;">A</th><th style="background:#1E88E5;">%</th><th style="background:#F57C00;">B</th><th style="background:#F57C00;">A</th><th style="background:#F57C00;">%</th></tr></thead><tbody>${rows}</tbody><tfoot><tr><td>รวม</td><td>${t22.B.toLocaleString()}</td><td>${t22.A.toLocaleString()}</td><td>${tr22}</td><td>${t25.B.toLocaleString()}</td><td>${t25.A.toLocaleString()}</td><td>${tr25}</td><td>${tS.B.toLocaleString()}</td><td>${tS.A.toLocaleString()}</td><td>${trS}</td></tr></tfoot></table>`;
-    }catch(e){ outputDiv.innerHTML=`<div style="color:red;text-align:center;">โหลดไม่ได้: ${e.message}</div>`; }
-  })();
-
-  // ===== 4. Ranking Chart =====
-  (async function(){
-    const AM={'4701':'เมืองสกลนคร','4702':'กุสุมาลย์','4703':'กุดบาก','4704':'พรรณานิคม','4705':'พังโคน','4706':'วาริชภูมิ','4707':'นิคมน้ำอูน','4708':'วานรนิวาส','4709':'คำตากล้า','4710':'บ้านม่วง','4711':'อากาศอำนวย','4712':'สว่างแดนดิน','4713':'ส่องดาว','4714':'เต่างอย','4715':'โคกศรีสุพรรณ','4716':'เจริญศิลป์','4717':'โพนนาแก้ว','4718':'ภูพาน'};
-    const CODES=Object.keys(AM);
-    const ctx=document.getElementById('cavityRankingChart').getContext('2d');
-    const out=document.getElementById('table-output-ranking');
-    try{
-      const res=await fetch('https://opendata.moph.go.th/api/report_data/s_dental_0_5_cavity_free/2569');
-      const json=await res.json();
-      const raw=Array.isArray(json)?json:(json.data||json.result||json.rows||[]);
-      let stats={}; CODES.forEach(c=>stats[c]={A:0,B:0,C:0});
-      raw.forEach(item=>{ const ac=String(item.areacode||item.AREACODE||'').trim(); if(ac.length>=4){ const c=ac.substring(0,4); if(stats[c]){ stats[c].A+=parseFloat(String(item.a||item.A||0).replace(/,/g,''))||0; stats[c].B+=parseFloat(String(item.b||item.B||0).replace(/,/g,''))||0; stats[c].C+=parseFloat(String(item.c||item.C||0).replace(/,/g,''))||0; } } });
-      let data=[],gt={A:0,B:0,C:0};
-      CODES.forEach(c=>{ const s=stats[c]; gt.A+=s.A;gt.B+=s.B;gt.C+=s.C; data.push({code:c,name:AM[c],valA:s.A,valB:s.B,valC:s.C,pctExam:s.C>0?(s.B/s.C)*100:0,pctCavity:s.B>0?(s.A/s.B)*100:0}); });
-      data.sort((a,b)=>b.pctCavity-a.pctCavity);
-      Chart.register(ChartDataLabels,window['chartjs-plugin-annotation']);
-      new Chart(ctx,{ type:'bar', data:{labels:data.map(d=>d.name),datasets:[{label:'อัตราฟันผุ (%)',data:data.map(d=>d.pctCavity.toFixed(2)),backgroundColor:data.map(d=>d.code==='4716'?'#2E7D32':'#BDBDBD'),borderRadius:4,barPercentage:.6}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},datalabels:{anchor:'end',align:'top',formatter:v=>v+'%',font:{weight:'bold',size:11},color:'#333'},annotation:{annotations:{line1:{type:'line',yMin:80,yMax:80,borderColor:'red',borderWidth:2,borderDash:[5,5],label:{enabled:true,content:'เป้า 80%',position:'end',backgroundColor:'rgba(255,0,0,.8)',color:'white',font:{size:10}}}}}},scales:{y:{beginAtZero:true,max:100,title:{display:true,text:'อัตราผู้ป่วย (%)'}},x:{ticks:{maxRotation:45,minRotation:45}}}} });
-      let rows=''; data.forEach(d=>{ const cs=d.code==='4716'?'background:#2E7D32;color:white;':''; rows+=`<tr style="${cs}"><td style="text-align:left;">${d.name}</td><td>${d.valC.toLocaleString()}</td><td>${d.valB.toLocaleString()}</td><td>${d.pctExam.toFixed(2)}</td><td>${d.valA.toLocaleString()}</td><td style="font-weight:bold;">${d.pctCavity.toFixed(2)}</td></tr>`; });
-      const tpE=gt.C>0?((gt.B/gt.C)*100).toFixed(2):'0.00',tpC=gt.B>0?((gt.A/gt.B)*100).toFixed(2):'0.00';
-      out.innerHTML=`<table class="custom-table" style="width:100%;margin-top:10px;"><thead><tr style="background:#424242;color:white;"><th rowspan="2" style="vertical-align:middle;">อำเภอ</th><th colspan="5" style="text-align:center;border-bottom:1px solid white;">ข้อมูลฟันผุ (เด็ก 0-5 ปี)</th></tr><tr style="background:#616161;color:white;font-size:.9em;"><th>ประชากร(C)</th><th>ตรวจ(B)</th><th>อัตราตรวจ(B/C)</th><th>ผุ(A)</th><th>อัตราผุ(A/B)</th></tr></thead><tbody>${rows}</tbody><tfoot style="background:#f2f2f2;color:#333;font-weight:bold;"><tr><td style="text-align:left;">รวมทั้งจังหวัด</td><td>${gt.C.toLocaleString()}</td><td>${gt.B.toLocaleString()}</td><td>${tpE}</td><td>${gt.A.toLocaleString()}</td><td>${tpC}</td></tr></tfoot></table>`;
-    }catch(e){ out.innerHTML=`<div style="color:red;">โหลดไม่ได้: ${e.message}</div>`; }
-  })();
-
-  // ===== 5. Cavity Free Chart =====
-  (async function(){
-    const AM={'4701':'เมืองสกลนคร','4702':'กุสุมาลย์','4703':'กุดบาก','4704':'พรรณานิคม','4705':'พังโคน','4706':'วาริชภูมิ','4707':'นิคมน้ำอูน','4708':'วานรนิวาส','4709':'คำตากล้า','4710':'บ้านม่วง','4711':'อากาศอำนวย','4712':'สว่างแดนดิน','4713':'ส่องดาว','4714':'เต่างอย','4715':'โคกศรีสุพรรณ','4716':'เจริญศิลป์','4717':'โพนนาแก้ว','4718':'ภูพาน'};
-    const CODES=Object.keys(AM);
-    const ctx=document.getElementById('cavityFreeChart').getContext('2d');
-    const out=document.getElementById('table-output-cavity');
-    try{
-      const res=await fetch('https://opendata.moph.go.th/api/report_data/s_dental_0_5_cavity_free/2569');
-      const json=await res.json();
-      const raw=Array.isArray(json)?json:(json.data||json.result||json.rows||[]);
-      let stats={}; CODES.forEach(c=>stats[c]={A:0,B:0,C:0});
-      raw.forEach(item=>{ const ac=String(item.areacode||item.AREACODE||'').trim(); if(ac.length>=4){ const c=ac.substring(0,4); if(stats[c]){ stats[c].A+=parseFloat(String(item.a||item.A||0).replace(/,/g,''))||0; stats[c].B+=parseFloat(String(item.b||item.B||0).replace(/,/g,''))||0; stats[c].C+=parseFloat(String(item.c||item.C||0).replace(/,/g,''))||0; } } });
-      let data=[],gt={A:0,B:0,C:0};
-      CODES.forEach(c=>{ const s=stats[c]; gt.A+=s.A;gt.B+=s.B;gt.C+=s.C; data.push({code:c,name:AM[c],valA:s.A,valB:s.B,valC:s.C,pctFree:s.B>0?((s.B-s.A)/s.B*100):0}); });
-      data.sort((a,b)=>b.pctFree-a.pctFree);
-      new Chart(ctx,{ type:'bar', data:{labels:data.map(d=>d.name),datasets:[{label:'ปลอดฟันผุ (%)',data:data.map(d=>d.pctFree.toFixed(2)),backgroundColor:data.map(d=>d.code==='4716'?'#1565C0':'#90CAF9'),borderRadius:4,barPercentage:.6}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},datalabels:{anchor:'end',align:'top',formatter:v=>v+'%',font:{weight:'bold',size:11},color:'#333'}},scales:{y:{beginAtZero:true,max:100,title:{display:true,text:'อัตราปลอดฟันผุ (%)'}},x:{ticks:{maxRotation:45,minRotation:45}}}} });
-      let rows=''; data.forEach(d=>{ const cs=d.code==='4716'?'background:#1565C0;color:white;':''; rows+=`<tr style="${cs}"><td style="text-align:left;">${d.name}</td><td>${d.valC.toLocaleString()}</td><td>${d.valB.toLocaleString()}</td><td>${d.valA.toLocaleString()}</td><td style="font-weight:bold;">${d.pctFree.toFixed(2)}</td></tr>`; });
-      const tpF=gt.B>0?(((gt.B-gt.A)/gt.B)*100).toFixed(2):'0.00';
-      out.innerHTML=`<table class="custom-table" style="width:100%;margin-top:10px;"><thead><tr style="background:#1565C0;color:white;"><th>อำเภอ</th><th>ประชากร(C)</th><th>ตรวจ(B)</th><th>ผุ(A)</th><th>ปลอดฟันผุ(%)</th></tr></thead><tbody>${rows}</tbody><tfoot style="background:#f2f2f2;color:#333;font-weight:bold;"><tr><td style="text-align:left;">รวมทั้งจังหวัด</td><td>${gt.C.toLocaleString()}</td><td>${gt.B.toLocaleString()}</td><td>${gt.A.toLocaleString()}</td><td>${tpF}</td></tr></tfoot></table>`;
-    }catch(e){ out.innerHTML=`<div style="color:red;">โหลดไม่ได้: ${e.message}</div>`; }
-  })();
-
-  // ===== 6. Knowledge Modals =====
-  function openNotesModal()       { createAndShowModal('Note ต่างๆ','<p style="padding:1rem;">เพิ่มเนื้อหา Note ได้ที่นี่</p>'); }
-  function openTranexamicModal()  { createAndShowModal('การใช้ Tranexamic acid','<p style="padding:1rem;">เนื้อหา Tranexamic acid</p>'); }
-  function openWisdomToothModal() { createAndShowModal('แนวทางถอนฟันคุด','<p style="padding:1rem;">เนื้อหาแนวทางถอนฟันคุด</p>'); }
-  function openRootCanalModal()   { createAndShowModal('แนวทางรักษาคลองราก','<p style="padding:1rem;">เนื้อหาแนวทางรักษาคลองราก</p>'); }
-  function openDentureModal()     { createAndShowModal('แนวทางใส่ฟันปลอม','<p style="padding:1rem;">เนื้อหาแนวทางใส่ฟันปลอม</p>'); }
-  function openAvulsionModal()    { createAndShowModal('Tooth Avulsion management','<p style="padding:1rem;">Tooth Avulsion management content</p>'); }
-  function openDrugHtmlModal()    { createAndShowModal('ยาทันตกรรม','<p style="padding:1rem;">เนื้อหาข้อมูลยาทันตกรรม</p>'); }
-  function openWebAppModal(url)   { openLink(url); }
 </script>
+
+
+    <script>
+    // ส่วนควบคุม Popup ทดสอบ (เผื่อในไฟล์ JavaScript.html ยังไม่มี)
+    var testPopupInterval; 
+    
+    // ตรวจสอบว่ามีฟังก์ชัน showTestPopup หรือยัง ถ้าไม่มีให้สร้างใหม่
+    if (typeof showTestPopup !== 'function') {
+        window.showTestPopup = function() {
+            var modal = document.getElementById('testPopup');
+            var timerDisplay = document.getElementById('popupCountDown');
+            var timeLeft = 15; // 15 วินาที
+
+            if(modal) {
+                modal.style.display = "flex"; // แสดง Popup
+
+                // เริ่มนับถอยหลัง
+                testPopupInterval = setInterval(function() {
+                    timeLeft--;
+                    if(timerDisplay) timerDisplay.innerText = timeLeft;
+
+                    if (timeLeft <= 0) {
+                        closeTestPopup();
+                    }
+                }, 1000);
+            }
+        };
+    }
+
+    if (typeof closeTestPopup !== 'function') {
+        window.closeTestPopup = function() {
+            var modal = document.getElementById('testPopup');
+            if(modal) modal.style.display = "none";
+            clearInterval(testPopupInterval);
+        };
+    }
+
+    // เรียกใช้งานเมื่อโหลดหน้าเว็บ
+    document.addEventListener('DOMContentLoaded', function() {
+        if (typeof showTestPopup === 'function') {
+            showTestPopup();
+        }
+    });
+
+    // ==========================================
+
+    // ฟังก์ชันเปิด Web App (พร้อม Animation และซ่อนปุ่ม Print/Download)
+    function openWebAppModal(url, title) {
+        document.getElementById('pdfModalTitle').innerText = title;
+        
+        // 1. Reset: ซ่อน Frame, โชว์ Loader
+        const loader = document.getElementById('modalLoader');
+        const frame = document.getElementById('pdfFrame');
+        
+        loader.style.display = 'flex';
+        frame.style.display = 'none';
+        frame.src = url;
+
+        // 2. Hide Buttons (ซ่อน Print และ Download สำหรับหน้า Web App)
+        document.getElementById('btnDownloadPdf').style.display = 'none';
+        document.getElementById('btnPrintPdf').style.display = 'none';
+        
+        // 3. Show Modal
+        document.getElementById('pdfModal').style.display = "flex";
+
+        // 4. On Load Event: ซ่อน Loader, โชว์ Frame
+        frame.onload = function() {
+            loader.style.display = 'none';
+            frame.style.display = 'block';
+        };
+    }
+
+    // ฟังก์ชันสำหรับเปิด HTML Content ที่ต้องการให้พิมพ์ได้ (Tranexamic, Wisdom, Root, Denture)
+    function createAndShowModal(title, htmlContent) {
+        const blob = new Blob([htmlContent], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        
+        document.getElementById('pdfModalTitle').innerText = title;
+        document.getElementById('pdfFrame').src = url;
+        
+        // ซ่อนปุ่ม Download
+        document.getElementById('btnDownloadPdf').style.display = 'none';
+        
+        // *** เปิดปุ่ม Print ***
+        document.getElementById('btnPrintPdf').style.display = 'inline-flex';
+        document.getElementById('btnPrintPdf').onclick = function() { 
+            const frame = document.getElementById('pdfFrame');
+            frame.contentWindow.focus();
+            frame.contentWindow.print();
+        };
+        
+        // ซ่อน Loader (เพราะโหลด Blob ทันที)
+        document.getElementById('modalLoader').style.display = 'none';
+        document.getElementById('pdfFrame').style.display = 'block';
+        
+        document.getElementById('pdfModal').style.display = "flex";
+    }
+
+    // 1. Tranexamic Acid
+    function openTranexamicModal() {
+        const htmlContent = `<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><style>body{font-family:'Sarabun',sans-serif;line-height:1.6;color:#333;padding:10px;background-color:#fff}.card{background:white;padding:15px;border-radius:10px}h2{color:#d32f2f;text-align:center;border-bottom:2px solid #ffcdd2;padding-bottom:10px;margin-top:0}.dosage-info{background-color:#e3f2fd;padding:15px;border-left:5px solid #2196f3;margin:15px 0;border-radius:4px}.step-list{list-style:none;padding:0}.step-item{display:flex;align-items:flex-start;margin-bottom:12px}.step-number{background:#2196f3;color:white;width:24px;height:24px;border-radius:50%;display:flex;justify-content:center;align-items:center;margin-right:10px;flex-shrink:0;font-weight:bold;font-size:14px}.warning{background-color:#fff3e0;border:1px solid #ffe0b2;padding:15px;border-radius:8px;margin-top:20px}.warning-title{color:#e65100;font-weight:bold;margin-bottom:8px}.footer{text-align:center;font-size:0.85em;color:#666;margin-top:20px}ul{padding-left:20px;margin:0}</style></head><body><div class="card"><h2>คำแนะนำการใช้ยาอมกลั้วปาก <br><small style="font-size:0.7em;color:#666">(เพื่อห้ามเลือดทางทันตกรรม)</small></h2><div class="dosage-info"><strong>ตัวยา:</strong> Tranexamic acid (250 mg / 5 ml)<br><strong>รูปแบบ:</strong> ยาน้ำสำหรับผสมใช้งาน</div><h3>ขั้นตอนการเตรียมและใช้งาน:</h3><ul class="step-list"><li class="step-item"><div class="step-number">1</div><div>เตรียมยาปริมาณ <b>5 ml</b> (1 ช้อนชา หรือ 1 หลอดฉีดยา)</div></li><li class="step-item"><div class="step-number">2</div><div>ผสมยาลงในน้ำสะอาดปริมาณ <b>15 - 20 ml</b> (ประมาณ 1-2 ช้อนโต๊ะ)</div></li><li class="step-item"><div class="step-number">3</div><div>นำมาอมกลั้วปากเบาๆ บริเวณที่มีเลือดออก นาน <b>2-3 นาที</b></div></li><li class="step-item"><div class="step-number">4</div><div><b>บ้วนยาทิ้ง</b> (ห้ามกลืนน้ำยาที่ผสมแล้ว)</div></li></ul><div class="warning"><div class="warning-title">⚠️ ข้อควรระวัง</div><ul><li>ห้ามบ้วนปากด้วยน้ำสะอาดทันทีหลังอมยา</li><li>งดน้ำและอาหารอย่างน้อย 30 นาทีหลังอมยา</li><li>หากเลือดไม่หยุดไหลภายใน 30-60 นาที ให้ติดต่อโรงพยาบาลทันที</li></ul></div></div><div class="footer">กลุ่มงานทันตกรรม โรงพยาบาลเจริญศิลป์</div></body></html>`;
+        createAndShowModal('วิธีใช้ Tranexamic Acid', htmlContent);
+    }
+
+    // 2. Wisdom Tooth (A5)
+    function openWisdomToothModal() {
+        const htmlContent = `<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><style>@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600&display=swap');body{font-family:'Sarabun',sans-serif;line-height:1.4;color:#333;padding:20px;box-sizing:border-box}.header{text-align:center;border-bottom:2px solid #ddd;padding-bottom:10px;margin-bottom:15px}h2{color:#d32f2f;margin:0;font-size:20px}h3{color:#1976D2;margin:12px 0 5px;border-bottom:1px solid #eee;font-size:16px}ul{padding-left:20px;margin:5px 0}li{margin-bottom:4px;font-size:14px}.highlight{color:#d32f2f;font-weight:bold}.note{background-color:#f9f9f9;padding:10px;border-left:4px solid #f0ad4e;margin-top:10px;font-size:13px}.footer{text-align:center;margin-top:20px;font-size:12px;color:#666;border-top:1px solid #ddd;padding-top:10px}@media print{@page{size:A5;margin:10mm}body{padding:0;font-size:12px}h2{font-size:18px}h3{font-size:14px}li{font-size:12px}}</style></head><body><div class="header"><h2>คำแนะนำหลังผ่าฟันคุด / ถอนฟัน</h2><span style="font-size:14px;color:#555">กลุ่มงานทันตกรรม โรงพยาบาลเจริญศิลป์</span></div><h3>1. การห้ามเลือด</h3><ul><li>กัดผ้ากอซให้แน่น ณ บริเวณที่ถอน/ผ่า นาน <b>1-2 ชั่วโมง</b></li><li><b>ห้ามบ้วนน้ำลาย</b> หรือเลือดทิ้ง ให้กลืนลงคอให้หมด</li><li>หากเลือดยังไม่หยุด ให้เปลี่ยนผ้ากอซชิ้นใหม่แล้วกัดต่ออีก 1 ชั่วโมง</li></ul><h3>2. การดูแลอาการบวม</h3><ul><li><b>24-48 ชม. แรก:</b> ประคบเย็นเพื่อลดบวม</li><li><b>หลัง 48 ชม.:</b> ประคบอุ่นเพื่อลดรอยช้ำ</li></ul><h3>3. อาหารและยา</h3><ul><li>ทานยาตามแพทย์สั่งให้ครบ</li><li>ทานอาหารอ่อน รสไม่จัด</li><li><span class="highlight">งด</span> ของร้อน, เผ็ด, แอลกอฮอล์, สูบบุหรี่</li></ul><div class="note"><b>หากมีอาการผิดปกติ:</b> เลือดไหลไม่หยุด, มีไข้สูง ให้รีบกลับมาพบแพทย์</div><div class="footer">โทรศัพท์ 042-709-148 ต่อ 156 ทันตกรรม (ในเวลาราชการ)</div></body></html>`;
+        createAndShowModal('คำแนะนำหลังผ่าฟันคุด (A5)', htmlContent);
+    }
+
+    // 3. Root Canal (A5)
+    function openRootCanalModal() {
+        const htmlContent = `<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><style>@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600&display=swap');body{font-family:'Sarabun',sans-serif;line-height:1.4;color:#333;padding:20px;box-sizing:border-box}.header{text-align:center;border-bottom:2px solid #ddd;padding-bottom:10px;margin-bottom:15px}h2{color:#00796B;margin:0;font-size:20px}h3{color:#004D40;margin:12px 0 5px;border-bottom:1px solid #eee;font-size:16px}ul{padding-left:20px;margin:5px 0}li{margin-bottom:4px;font-size:14px}.highlight{color:#d32f2f;font-weight:bold}.note{background-color:#E0F2F1;padding:10px;border-left:4px solid #009688;margin-top:10px;font-size:13px}.footer{text-align:center;margin-top:20px;font-size:12px;color:#666;border-top:1px solid #ddd;padding-top:10px}@media print{@page{size:A5;margin:10mm}body{padding:0;font-size:12px}h2{font-size:18px}h3{font-size:14px}}</style></head><body><div class="header"><h2>คำแนะนำหลังรักษารากฟัน</h2><span style="font-size:14px;color:#555">กลุ่มงานทันตกรรม โรงพยาบาลเจริญศิลป์</span></div><h3>1. การดูแลหลังรักษา (สำคัญมาก)</h3><ul><li><span class="highlight">ห้าม</span> ใช้ฟันซี่นี้เคี้ยวอาหารแข็งหรือเหนียวเด็ดขาด จนกว่าจะใส่ครอบฟัน เพราะฟันจะเปราะและแตกหักง่าย</li><li>หากใส่เดือยฟัน (FRC) หรืออุดวัสดุชั่วคราว ควรระวังไม่ให้วัสดุหลุด</li></ul><h3>2. อาการที่อาจเกิดขึ้นได้</h3><ul><li>อาจมีอาการ <b>เสียวฟัน หรือปวดระบม</b> เล็กน้อยในช่วง 2-3 วันแรก ถือเป็นเรื่องปกติ</li><li>สามารถทานยาแก้ปวด (Paracetamol หรือ Ibuprofen) ตามคำแนะนำได้</li></ul><h3>3. สิ่งที่ต้องระวัง</h3><ul><li>หากวัสดุอุดหลุด ให้รีบกลับมาพบแพทย์ทันที</li><li>ต้องมาตามนัดเพื่อทำครอบฟัน หากทิ้งไว้นานฟันอาจแตกจนต้องถอน</li></ul><div class="note"><b>ให้รีบกลับมาพบแพทย์เมื่อ:</b> บวมใหญ่, มีตุ่มหนอง, ปวดรุนแรง หรือวัสดุหลุด</div><div class="footer">โทรศัพท์ 042-709-148 ต่อ 156 ทันตกรรม (ในเวลาราชการ)</div></body></html>`;
+        createAndShowModal('คำแนะนำหลังรักษารากฟัน (A5)', htmlContent);
+    }
+
+    // 4. Denture (A5)
+    function openDentureModal() {
+        const htmlContent = `<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><style>@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600&display=swap');body{font-family:'Sarabun',sans-serif;line-height:1.4;color:#333;padding:20px;box-sizing:border-box}.header{text-align:center;border-bottom:2px solid #ddd;padding-bottom:10px;margin-bottom:15px}h2{color:#1565C0;margin:0;font-size:20px}h3{color:#0D47A1;margin:12px 0 5px;border-bottom:1px solid #eee;font-size:16px}ul{padding-left:20px;margin:5px 0}li{margin-bottom:4px;font-size:14px}.highlight{color:#d32f2f;font-weight:bold}.note{background-color:#E3F2FD;padding:10px;border-left:4px solid #2196F3;margin-top:10px;font-size:13px}.footer{text-align:center;margin-top:20px;font-size:12px;color:#666;border-top:1px solid #ddd;padding-top:10px}@media print{@page{size:A5;margin:10mm}body{padding:0;font-size:12px}h2{font-size:18px}h3{font-size:14px}}</style></head><body><div class="header"><h2>คำแนะนำการดูแลฟันปลอม</h2><span style="font-size:14px;color:#555">กลุ่มงานทันตกรรม โรงพยาบาลเจริญศิลป์</span></div><h3>1. การเริ่มใช้งาน</h3><ul><li>ช่วงแรกอาจรู้สึกไม่คุ้นเคย พูดไม่ชัด อาการจะดีขึ้นเมื่อชิน</li><li>ฝึกเคี้ยวอาหารอ่อนๆ ชิ้นเล็กๆ ก่อน</li><li><span class="highlight">ถอดฟันปลอมก่อนนอนทุกคืน</span> เพื่อพักเหงือก</li></ul><h3>2. การทำความสะอาด</h3><ul><li>ถอดล้างหลังทานอาหารทุกครั้ง</li><li>ใช้แปรงสีฟันขนอ่อนร่วมกับ <b>น้ำสบู่/น้ำยาล้างจาน</b> แปรงเบาๆ</li><li><span class="highlight">ห้าม</span> ใช้ยาสีฟันแปรงฟันปลอม เพราะจะทำให้สึก</li></ul><h3>3. การเก็บรักษา</h3><ul><li>แช่ฟันปลอมในน้ำสะอาดเสมอเมื่อถอดออก</li><li><span class="highlight">ห้าม</span> แช่ในน้ำร้อน</li><li>ควรหาภาชนะรองรับขณะล้าง ป้องกันการตกแตก</li></ul><div class="note"><b>หากเจ็บเหงือก:</b> ห้ามกรอแต่งฟันปลอมเอง ให้กลับมาพบทันตแพทย์</div><div class="footer">โทรศัพท์ 042-709-148 ต่อ 156 ทันตกรรม (ในเวลาราชการ)</div></body></html>`;
+        createAndShowModal('คำแนะนำการดูแลฟันปลอม (A5)', htmlContent);
+    }
+
+    // 5. Notes Modal (Black Board - Red Drugs)
+    function openNotesModal() {
+        const htmlContent = `<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600&display=swap" rel="stylesheet"><style>:root{--bg-color:#1e1e1e;--card-bg:#2d2d2d;--text-primary:#e0e0e0;--text-secondary:#b0b0b0;--accent-color:#ffca28;--red-warn:#ef9a9a}body{font-family:'Sarabun',sans-serif;background-color:var(--bg-color);color:var(--text-primary);margin:0;padding:20px;line-height:1.6}header{text-align:center;margin-bottom:20px;padding-bottom:10px;border-bottom:2px solid #444}h1{margin:0;font-weight:600;color:var(--accent-color);font-size:24px}p.subtitle{color:var(--text-secondary);font-size:0.9rem}.container{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:15px}.card{background-color:var(--card-bg);border-radius:12px;padding:15px;box-shadow:0 4px 6px rgba(0,0,0,0.3);border-top:4px solid var(--accent-color)}.year-badge{background-color:var(--accent-color);color:#000;padding:2px 10px;border-radius:20px;font-weight:bold;display:inline-block;margin-bottom:10px;font-size:1rem}.content-item{margin-bottom:10px;border-bottom:1px solid #3e3e3e;padding-bottom:8px;font-size:0.95em}.content-item:last-child{border-bottom:none}.label{font-weight:600;color:#81d4fa;display:block;margin-bottom:4px}.warning{color:var(--red-warn)}.code-box{background:#000;padding:2px 6px;border-radius:4px;font-family:monospace;color:#a5d6a7}ul{margin:0;padding-left:20px}</style></head><body><header><h1>ข้อมูลสำคัญ</h1><p class="subtitle">User, Password, ราคากลาง และแนวทางปฏิบัติ</p></header><div class="container"><div class="card"><div class="year-badge">ปี 2558-2561</div><div class="content-item"><span class="label">การจ่ายยา</span>โรคกระเพาะจ่าย <span class="warning">Tramadol</span> 1*3 (เลี่ยง <span class="warning">Ibuprofen</span>)</div><div class="content-item"><span class="label">เอกสารภายใน</span>User: <span class="code-box">dental</span> Pass: <span class="code-box">852</span></div><div class="content-item"><span class="label warning">ข้อควรระวัง</span>- Pt ทาน <span class="warning">Verapamil</span> 40 mg ให้ consult ก่อนเพราะ pt เป็น SVT ใจจะสั่นเวลาเครียด</div></div><div class="card"><div class="year-badge">ปี 2562</div><div class="content-item"><span class="label">ประกันสังคม</span><ul><li>1-5 ซี่ = 1,300</li><li>>5 ซี่ = 1,500</li><li>Single denture = 2,400</li><li>ฟันปลอมทั้งปาก = 4,400</li></ul></div></div><div class="card"><div class="year-badge">ปี 2563</div><div class="content-item"><span class="label warning">ยา Methotrexate</span>รักษารูมาตอยด์ตัวยาทำให้เกิดกระดูกพรุนได้จะมีปัญหาต่อการถอนฟัน</div><div class="content-item"><span class="label">รหัส รพ.สต.</span><ul><li>05574 กุดนาขาม</li><li>05575 บ้านเหล่า</li><li>05576 หนองแวง</li><li>05577 ดอนสร้างไพร</li><li>05578 โคกศิลา</li><li>05579 ดงสง่า</li></ul></div></div><div class="card"><div class="year-badge">ปี 2564</div><div class="content-item"><span class="label">ประกันสังคม Login</span>User: <span class="code-box">H66004608004</span> Pass: <span class="code-box">Vxxxx12xx</span></div><div class="content-item"><span class="label">หัตถการ</span><ul><li>ฟันปลอม claim แยกชิ้นได้</li><li>ฟิล์มยาว 31 mm</li><li>ICD Z532 ไม่ประสงค์ทำ</li></ul></div><div class="content-item"><span class="label">จ่ายยา</span><ul><li><span class="warning">Triamcinolone</span> จ่ายโดยพิมพ์ apt tid</li><li><span class="warning">Clotimazole vagina</span> กด * แล้วพิมพ์ T เลือกล่างสุด</li><li><span class="warning">Acyclovir</span>: 1*5 (5-7 วัน)</li></ul></div></div><div class="card"><div class="year-badge">ปี 2567-2568</div><div class="content-item"><span class="label"><span class="warning">Acyclovir</span> (Update)</span>400 mg 1*3 นาน 5 วัน</div><div class="content-item"><span class="label">ประกันสังคม</span>ถ้าตรวจ+X-ray ต้องเสียเงินเอง</div><div class="content-item"><span class="label">ราคา Lab</span>Splint = 500 บาท</div></div><div class="card"><div class="year-badge">ปี 2569</div><div class="content-item"><span class="label" style="color:#ff3333;">ข้อควรระวัง (ยาจิตเวช)</span>คนไข้ที่ได้รับยาจิตเวชกลุ่ม TCA เช่น <span class="warning">Amitriptyline, Nortriptyline</span> หรือ <span class="warning">Imipramine</span> ให้เลี่ยงยาชาที่มี Epinephrine เพราะจะทำให้มี epinephrine ค้างในกระแสเลือดมากและนานกว่าปกติ ซึ่งมันจะไปเสริมฤทธิ์กับยาที่คนไข้ทานอยู่ ทำให้คนไข้ BP shoot หรือเพิ่มโอกาสการเกิดหัวใจเต้นผิดจังหวะได้</div><div class="content-item"><span class="label">Flexible Denture</span><ul><li>Update ราคา Flexible denture<br>1 ซี่ ราคา 4,000 บาท ซี่ต่อไปราคา 300 ต่อซี่ ตอนคีย์จ่ายเงินให้คีย์เป็นค่า Lab</li></ul></div><div class="content-item"><span class="label">สิทธิการรักษา</span><ul><li>30 บาท ถ้าจะวนมาทำฟันต้องเปิดสิทธิใหม่</li><li>เวลาไปราชการเบิก รร ได้คืนละ 1,500<br>จาก รพ.ไปสนามบินให้เบิกค่าโดยสารรถประจำทาง<br>ถ้าจองผ่านสายการบินให้ขอใบเสร็จด้วย</li></ul></div></div></div></body></html>`;
+        createAndShowModal('Note ข้อมูลสำคัญ', htmlContent);
+    }
+
+    function openAvulsionModal() {
+        const htmlContent = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><style>body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background-color:#f8f9fa;color:#333;line-height:1.6;margin:20px}.container{max-width:1000px;margin:auto;background:#ffffff;padding:30px;border-radius:8px;box-shadow:0 4px 8px rgba(0,0,0,0.1)}h1{text-align:center;color:#2c3e50;border-bottom:2px solid #34495e;padding-bottom:10px}p.intro{text-align:center;font-size:1.1em;color:#555}h2{color:#2980b9;margin-top:30px;border-left:5px solid #2980b9;padding-left:10px}table{width:100%;border-collapse:collapse;margin-top:15px;margin-bottom:30px}th,td{border:1px solid #ddd;padding:12px;text-align:left;vertical-align:top}th{background-color:#34495e;color:#ffffff;font-weight:bold}tr:nth-child(even){background-color:#f2f2f2}.condition-title{font-weight:bold;color:#c0392b}.footer{margin-top:20px;font-size:0.9em;color:#7f8c8d;border-top:1px solid #ddd;padding-top:10px}ul{margin:0;padding-left:20px}</style></head><body><div class="container"><h1>Management of Avulsed Permanent Teeth</h1><p class="intro">Based on the International Association of Dental Traumatology (IADT) Guidelines.<br>The choice of treatment is related to the maturity of the root (open or closed apex) and the condition of the periodontal ligament (PDL) cells.</p><h2>1. Closed Apex (Mature Root)</h2><table><tr><th width="25%">Condition / PDL Status</th><th width="35%">Immediate Management &amp; Replantation</th><th width="20%">Splinting</th><th width="20%">Endodontic Treatment</th></tr><tr><td><span class="condition-title">PDL Most Likely Viable</span><br>Replanted immediately or within a short time (~15 mins).</td><td><ul><li>Clean the injured area.</li><li>Verify position clinically and radiographically.</li><li>Leave the tooth in place.</li><li>Administer systemic antibiotics and check tetanus status.</li></ul></td><td>Stabilize for 2 weeks using a passive flexible splint.</td><td>Initiate root canal treatment within 2 weeks.</td></tr><tr><td><span class="condition-title">PDL Viable but Compromised</span><br>Kept in storage medium, extra-oral dry time &lt; 60 mins.</td><td><ul><li>Rinse root surface with saline or physiologic medium.</li><li>Irrigate socket with saline and replant slowly.</li><li>Administer systemic antibiotics and check tetanus status.</li></ul></td><td>Stabilize for 2 weeks using a passive flexible splint.</td><td>Initiate root canal treatment within 2 weeks.</td></tr><tr><td><span class="condition-title">PDL Likely Non-Viable</span><br>Extra-oral dry time &gt; 60 mins.</td><td><ul><li>Remove loose debris from root.</li><li>Irrigate socket with saline and replant slowly.</li><li>Administer systemic antibiotics and check tetanus status.</li></ul><em>Note: Delayed replantation has a poor long-term prognosis (ankylosis expected).</em></td><td>Stabilize for 2 weeks using a passive flexible splint.</td><td>Initiate root canal treatment within 2 weeks.</td></tr></table><h2>2. Open Apex (Immature Root)</h2><table><tr><th width="25%">Condition / PDL Status</th><th width="35%">Immediate Management &amp; Replantation</th><th width="20%">Splinting</th><th width="20%">Endodontic Treatment</th></tr><tr><td><span class="condition-title">PDL Most Likely Viable</span><br>Replanted immediately or before arrival at clinic.</td><td><ul><li>Clean the area and verify correct position.</li><li>Leave tooth in the jaw.</li><li>Administer systemic antibiotics and check tetanus status.</li></ul></td><td>Stabilize for 2 weeks (short immature teeth may require longer).</td><td>Avoid RCT unless signs of pulp necrosis/infection. Goal is pulp revascularization.</td></tr><tr><td><span class="condition-title">PDL Viable but Compromised</span><br>Kept in storage medium, extra-oral dry time &lt; 60 mins.</td><td><ul><li>Rinse root surface gently.</li><li>Irrigate socket with saline and replant slowly.</li><li>Administer systemic antibiotics and check tetanus status.</li></ul></td><td>Stabilize for 2 weeks using a passive flexible splint.</td><td>Avoid RCT unless signs of pulp necrosis/infection. Goal is pulp revascularization.</td></tr><tr><td><span class="condition-title">PDL Likely Non-Viable</span><br>Extra-oral dry time &gt; 60 mins.</td><td><ul><li>Remove debris gently.</li><li>Irrigate socket with saline and replant slowly.</li><li>Administer systemic antibiotics and check tetanus status.</li></ul><em>Note: Poor long-term prognosis. Goal is to temporarily restore esthetics and maintain bone.</em></td><td>Stabilize for 2 weeks using a passive flexible splint.</td><td>Avoid RCT unless signs of pulp necrosis/infection. Goal is pulp revascularization.</td></tr></table><div class="footer"><p><strong>General Recommendations:</strong> Provide post-operative instructions including soft diet for up to 2 weeks, brushing with a soft toothbrush, and using chlorhexidine (0.12%) mouth rinse. Follow-up clinical and radiographic control is essential.</p></div></div></body></html>`;
+        createAndShowModal('Tooth Avulsion Management', htmlContent);
+    }
+    
+    </script>
+
 </body>
 </html>
